@@ -1,0 +1,19 @@
+{
+  "name": "LearningPathVDOM",
+  "version": "1.0.0",
+  "description": "An Oracle JavaScript Extension Toolkit(JET) web app",
+  "dependencies": {
+    "@oracle/oraclejet": "~12.1.0"
+  },
+  "devDependencies": {
+    "@oracle/oraclejet-tooling": "~12.1.0",
+    "fs-extra": "^8.1.0",
+    "glob": "^7.1.1",
+    "typescript": "4.5.4",
+    "underscore": "^1.10.2"
+  },
+  "engines": {
+    "node": ">=12.21.0"
+  },
+  "private": true
+}
