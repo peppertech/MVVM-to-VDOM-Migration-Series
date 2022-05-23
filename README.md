@@ -1,5 +1,16 @@
+# Getting Started
 
+Fork this project and clone that fork.
+Clone your fork
 
-### Running project with different server port and livereload port
+## Install packages
 
-* npx @oracle/ojet-cli serve --server-port=8001 --livereload-port=35723
+    npm install
+
+## Run Locally
+
+    npm run start
+
+or
+
+    npx @oracle/ojet-cli serve --server-port=8001 --livereload-port=35723
