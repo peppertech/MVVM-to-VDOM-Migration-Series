@@ -1,6 +1,6 @@
 import { h } from "preact";
 
-export function ActivityContainer() {
+const ActivityContainer = () => {
   return (
     <div
       id="activitiesContainer"
@@ -9,4 +9,6 @@ export function ActivityContainer() {
       <h3 id="activitiesHeader">Activities</h3>
     </div>
   );
-}
+};
+
+export default ActivityContainer;

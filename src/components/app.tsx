@@ -1,29 +1,28 @@
-import { customElement, ExtendGlobalProps } from "ojs/ojvcomponent";
-import { h, Component, ComponentChild } from "preact";
+import { Component, ComponentChild, h } from "preact";
+import { ExtendGlobalProps, customElement } from "ojs/ojvcomponent";
+
+import { Content } from "./Content/Content";
+import Footer from "./Footer";
+import Header from "./Header";
+
 import Context = require("ojs/ojcontext");
-import { Footer } from "./footer";
-import { Header } from "./header";
-import { Content } from "./content/index";
 
 type Props = {
   appName?: string;
   userLogin?: string;
-}
+};
 
 @customElement("app-root")
 export class App extends Component<ExtendGlobalProps<Props>> {
   static defaultProps: Props = {
-    appName: 'Learning Path VDOM',
-    userLogin: "john.hancock@oracle.com"
+    appName: "Learning Path VDOM",
+    userLogin: "john.hancock@oracle.com",
   };
 
   render(props: ExtendGlobalProps<Props>): ComponentChild {
     return (
       <div id="appContainer" class="oj-web-applayout-page">
-        <Header
-          appName={props.appName} 
-          userLogin={props.userLogin} 
-        />
+        <Header appName={props.appName} userLogin={props.userLogin} />
         <Content />
         <Footer />
       </div>
