@@ -5,6 +5,13 @@ Migration project for moving JET Learning Path from MVVM Architecture to VDOM Ar
 
 &nbsp;
 
+The existing Learning Path for _Building a web application with Oracle JET_ uses TypeScript and the MVVM architecture.
+http://www.oracle.com/pls/topic/lookup?ctx=jetlatest&id=jet-learning-paths
+
+This project will take that Learning Path's final application and migrate it to the new JET Virtual DOM (VDOM) Architecture.
+
+&nbsp;
+
 ## Prerequisites
 * Nodejs v12 or higher (latest LTS recommended)
 * Latest JET CLI installed (or use NPX as described below)
