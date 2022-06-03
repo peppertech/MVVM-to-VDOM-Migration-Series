@@ -1,0 +1,232 @@
+[
+    {
+      "id": 1,
+      "name": "Baseball",
+      "short_desc": "Equipment we carry for baseball players.",
+      "image": "styles/images/product_images/baseball.jpg",
+      "items": [
+        {
+          "id": 15,
+          "name": "SureCatch Baseball Glove",
+          "short_desc": "All-purpose baseball glove",
+          "price": 25.5,
+          "quantity": 73,
+          "quantity_shipped": 21,
+          "quantity_instock": 52,
+          "activity_id": 1,
+          "image": "styles/images/product_images/alglove.jpg"
+        },
+        {
+          "id": 16,
+          "name": "Western R16 Helmet",
+          "short_desc": "Two-tone batter's helmet",
+          "price": 30.29,
+          "quantity": 33,
+          "quantity_shipped": 25,
+          "quantity_instock": 8,
+          "activity_id": 1,
+          "image": "styles/images/product_images/batterhelm.jpg"
+        },
+        {
+          "id": 17,
+          "name": "Western C1 Helmet",
+          "short_desc": "Blue catcher's helmet",
+          "price": 38.5,
+          "quantity": 60,
+          "quantity_shipped": 43,
+          "quantity_instock": 17,
+          "activity_id": 1,
+          "image": "styles/images/product_images/chaphelm.jpg"
+        },
+        {
+          "id": 18,
+          "name": "Western Bat",
+          "short_desc": "North American maple baseball bat",
+          "price": 26.94,
+          "quantity": 55,
+          "quantity_shipped": 43,
+          "quantity_instock": 12,
+          "activity_id": 1,
+          "image": "styles/images/product_images/pucbat.jpg"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Bicycling",
+      "short_desc": "Equipment we carry for biking enthusiasts.",
+      "image": "styles/images/product_images/gpbike.jpg",
+      "items": [
+        {
+          "id": 10,
+          "name": "Air-Lift Tire Pump",
+          "short_desc": "Foot pump for bikes",
+          "price": 6.97,
+          "quantity": 30,
+          "quantity_shipped": 5,
+          "quantity_instock": 25,
+          "activity_id": 2,
+          "image": "styles/images/product_images/tirepump.jpg"
+        },
+        {
+          "id": 11,
+          "name": "Intact Bike Helmet",
+          "short_desc": "Regular size blue helmet",
+          "price": 39.99,
+          "quantity": 200,
+          "quantity_shipped": 179,
+          "quantity_instock": 21,
+          "activity_id": 2,
+          "image": "styles/images/product_images/safthelm.jpg"
+        },
+        {
+          "id": 12,
+          "name": "Nimbus Bike Tire",
+          "short_desc": "Specialized black tire",
+          "price": 20,
+          "quantity": 85,
+          "quantity_shipped": 12,
+          "quantity_instock": 73,
+          "activity_id": 2,
+          "image": "styles/images/product_images/mountainbiketire.jpg"
+        },
+        {
+          "id": 13,
+          "name": "Refill Water Bottle",
+          "short_desc": "Bottle and holder",
+          "price": 12.79,
+          "quantity": 35,
+          "quantity_shipped": 30,
+          "quantity_instock": 5,
+          "activity_id": 2,
+          "image": "styles/images/product_images/waterbottle.jpg"
+        },
+        {
+          "id": 14,
+          "name": "Swift Boys 21 Speed",
+          "short_desc": "Boy's medium frame",
+          "price": 129.95,
+          "quantity": 49,
+          "quantity_shipped": 9,
+          "quantity_instock": 40,
+          "activity_id": 2,
+          "image": "styles/images/product_images/himbike.jpg"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Skiing",
+      "short_desc": "Equipment we carry for skiing enthusiasts.",
+      "image": "styles/images/product_images/aceboot.jpg",
+      "items": [
+        {
+          "id": 6,
+          "name": "Bunny Ski Boot",
+          "short_desc": "Beginner ski boot",
+          "price": 95,
+          "quantity": 34,
+          "quantity_shipped": 12,
+          "quantity_instock": 22,
+          "activity_id": 3,
+          "image": "styles/images/product_images/bunboot.jpg"
+        },
+        {
+          "id": 7,
+          "name": "Ace Ski Boot",
+          "short_desc": "Advanced ski boot",
+          "price": 349.25,
+          "quantity": 85,
+          "quantity_shipped": 25,
+          "quantity_instock": 60,
+          "activity_id": 3,
+          "image": "styles/images/product_images/aceboot.jpg"
+        },
+        {
+          "id": 8,
+          "name": "Bunny Ski Pole",
+          "short_desc": "Beginner ski pole",
+          "price": 12.95,
+          "quantity": 100,
+          "quantity_shipped": 95,
+          "quantity_instock": 5,
+          "activity_id": 3,
+          "image": "styles/images/product_images/bunpole.jpg"
+        },
+        {
+          "id": 9,
+          "name": "Ace Ski Pole",
+          "short_desc": "Intermediate ski pole",
+          "price": 25.99,
+          "quantity": 75,
+          "quantity_shipped": 69,
+          "quantity_instock": 6,
+          "activity_id": 3,
+          "image": "styles/images/product_images/acepole.jpg"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Soccer",
+      "short_desc": "Equipment we carry for soccer players.",
+      "image": "styles/images/product_images/jrsoccerball.jpg",
+      "items": [
+        {
+          "id": 1,
+          "name": "Black Hawk Elbow Pads",
+          "short_desc": "Elbow pads, pair",
+          "price": 25.95,
+          "quantity": 1450,
+          "quantity_shipped": 600,
+          "quantity_instock": 850,
+          "activity_id": 4,
+          "image": "styles/images/product_images/elbowpads.jpg"
+        },
+        {
+          "id": 2,
+          "name": "World Cup Soccer Ball",
+          "short_desc": "World Cup soccer ball",
+          "price": 55.9,
+          "quantity": 1225,
+          "quantity_shipped": 525,
+          "quantity_instock": 700,
+          "activity_id": 4,
+          "image": "styles/images/product_images/worldcupsoccerball.jpg"
+        },
+        {
+          "id": 3,
+          "name": "Junior Soccer Ball",
+          "short_desc": "Junior soccer ball",
+          "price": 21.5,
+          "quantity": 100,
+          "quantity_shipped": 50,
+          "quantity_instock": 50,
+          "activity_id": 4,
+          "image": "styles/images/product_images/jrsoccerball.jpg"
+        },
+        {
+          "id": 4,
+          "name": "Star Goalie Gloves",
+          "short_desc": "Adult white and blue gloves",
+          "price": 8.75,
+          "quantity": 200,
+          "quantity_shipped": 15,
+          "quantity_instock": 185,
+          "activity_id": 4,
+          "image": "styles/images/product_images/stglove.jpg"
+        },
+        {
+          "id": 5,
+          "name": "SportsNet Soccer Goal",
+          "short_desc": "Full size soccer net",
+          "price": 49.99,
+          "quantity": 75,
+          "quantity_shipped": 39,
+          "quantity_instock": 36,
+          "activity_id": 4,
+          "image": "styles/images/product_images/soccernet.jpg"
+        }
+      ]
+    }
+  ]
