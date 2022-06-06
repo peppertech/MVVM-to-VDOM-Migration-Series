@@ -24,7 +24,7 @@ export class App extends Component<ExtendGlobalProps<Props>> {
       <div id="appContainer" class="oj-web-applayout-page">
         <Header appName={props.appName} userLogin={props.userLogin} />
         <Content />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }
