@@ -12,8 +12,6 @@ type Activity = {
   short_desc: string;
 };
 
-let ListViewProps: ListViewIntrinsicProps;
-let activityValue: KeySet<Activity["name"]>;
 type Props = {
   value: string;
   onActivityChanged: (value: KeySet<string>) => void;
@@ -43,11 +41,9 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
 
 export function ActivityContainer(props: Props) {
 
-  const selectedActivityChanged = useCallback((event) => {
-    if (event.detail.updatedFrom === "internal") {
+  const selectedActivityChanged = useCallback((event:ojListView.selectedChanged<Activity['name'],Activity>) => {
       props.onActivityChanged(event.detail.value);
-    }
-  }, []);
+  }, [props.onActivityChanged]);
 
   const activityValue = useMemo(() => {
     return new KeySetImpl([props.value]) as KeySet<Activity['name']>;
