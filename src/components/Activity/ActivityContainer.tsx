@@ -1,5 +1,5 @@
 import { h } from "preact";
-import {useState, useCallback, useEffect} from "preact/hooks";
+import { useState, useCallback, useEffect, useMemo } from "preact/hooks";
 import "ojs/ojlistview";
 import { KeySetImpl, KeySet } from "ojs/ojkeyset";
 import MutableArrayDataProvider = require("ojs/ojmutablearraydataprovider");
@@ -7,27 +7,30 @@ import { ListViewIntrinsicProps, ojListView } from "ojs/ojlistview";
 import * as storeData from "text!./store_data.json";
 
 type Activity = {
-  "id": number;
-  "name": string;
-  "short_desc": string;
-}
+  id: number;
+  name: string;
+  short_desc: string;
+};
 
 let ListViewProps: ListViewIntrinsicProps;
-let firstSelectedActivity: any;
-let activityValue: KeySet<Activity['name']>;
+let activityValue: KeySet<Activity["name"]>;
 type Props = {
-  value: string
-  onActivityChanged: (value:string) => void;
-}
+  value: string;
+  onActivityChanged: (value: KeySet<string>) => void;
+};
 
-let activityDataProvider:MutableArrayDataProvider<string, {}> = new MutableArrayDataProvider(JSON.parse(storeData), {
-  keyAttributes: "id",
-});
+let activityDataProvider: MutableArrayDataProvider<string, {}> =
+  new MutableArrayDataProvider(JSON.parse(storeData), {
+    keyAttributes: "name",
+  });
 
 const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
   return (
     <div class="oj-flex no-wrap">
-      <span class="demo-thumbnail oj-flex-item" style={'background-image:url('+ item.data.image+')'}></span>
+      <span
+        class="demo-thumbnail oj-flex-item"
+        style={"background-image:url(" + item.data.image + ")"}
+      ></span>
       <div class="demo-content oj-flex-item">
         <div>
           <strong>{item.data.name}</strong>
@@ -38,36 +41,36 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
   );
 };
 
-export function ActivityContainer(props:Props) {
-  
-const selectedActivityChanged = useCallback((event) => {
-  console.log(event.detail.value.data?.name)
-  if(event.detail){}
-  props.onActivityChanged(event.detail.value.data?.name);
+export function ActivityContainer(props: Props) {
 
-},[]);
+  const selectedActivityChanged = useCallback((event) => {
+    if (event.detail.updatedFrom === "internal") {
+      props.onActivityChanged(event.detail.value);
+    }
+  }, []);
 
-useEffect(() => {
-  activityValue = new KeySetImpl([props.value]) as KeySet<Activity['name']>;
-})
+  const activityValue = useMemo(() => {
+    return new KeySetImpl([props.value]) as KeySet<Activity['name']>;
+  },[props.value])
 
   return (
     <div
       id="activitiesContainer"
-      class="oj-flex-item oj-sm-padding-4x-start oj-sm-only-text-align-start oj-md-4 oj-sm-12">
+      class="oj-flex-item oj-sm-padding-4x-start oj-sm-only-text-align-start oj-md-4 oj-sm-12"
+    >
       <h3 id="activitiesHeader">Activities</h3>
       <oj-list-view
         id="activitiesList"
         class="item-display"
-        aria-labelledby="activitiesHeader" 
+        aria-labelledby="activitiesHeader"
         data={activityDataProvider}
         gridlines={{ item: "visible" }}
         selectionMode="single"
         selected={activityValue}
-        onfirstSelectedItemChanged={selectedActivityChanged}
-        firstSelectedItem={firstSelectedActivity}
+        onselectedChanged={selectedActivityChanged}
         scroll-policy="loadMoreOnScroll"
-        scrollPolicyOptions={{ fetchSize: 5 }}>
+        scrollPolicyOptions={{ fetchSize: 5 }}
+      >
         <template slot="itemTemplate" render={listItemRenderer}></template>
       </oj-list-view>
     </div>

@@ -9,14 +9,13 @@ type Props = {
 }
 
 export function ParentContainer2(props:Props) {
-  const [selectedActivityItem, setSelectedActivityItem] = useState(props.activity)
   let showItems = true;
   return (
     <div
       id="parentContainer2"
       class="oj-flex oj-flex-item oj-lg-padding-6x oj-md-8 oj-sm-12"
     >
-      <ActivityItemContainer activity={selectedActivityItem} />
+      <ActivityItemContainer activity={props.activity} />
       { showItems && <ItemDetailContainer item={props.activity} />}
     </div>
   );
