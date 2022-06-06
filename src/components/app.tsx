@@ -25,7 +25,7 @@ export class App extends Component<ExtendGlobalProps<Props>> {
           userLogin={props.userLogin} 
         />
         <Content />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }
