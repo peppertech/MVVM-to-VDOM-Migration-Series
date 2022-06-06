@@ -1,7 +1,7 @@
 import ActivityContainer from "./Activity/ActivityContainer";
 import ParentContainer2 from "./ParentContainer2";
 import { h } from "preact";
-import { useState, useEffect, useCallback } from "preact/hooks";
+import { useState, useCallback } from "preact/hooks";
 import { KeySetImpl, KeySet } from "ojs/ojkeyset";
 
 type Activity = {
