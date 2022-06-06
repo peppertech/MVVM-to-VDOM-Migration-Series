@@ -53,7 +53,8 @@ const activityValue = useMemo(() => {
   return (
     <div
       id="activitiesContainer"
-      class="oj-flex-item oj-sm-padding-4x-start oj-sm-only-text-align-start oj-md-4 oj-sm-12">
+      class="oj-flex-item oj-sm-padding-4x-start oj-sm-only-text-align-start oj-md-4 oj-sm-12"
+    >
       <h3 id="activitiesHeader">Activities</h3>
       <oj-list-view
         id="activitiesList"
@@ -65,7 +66,8 @@ const activityValue = useMemo(() => {
         selected={activityValue}
         onselectedChanged={selectedActivityChanged}
         scroll-policy="loadMoreOnScroll"
-        scrollPolicyOptions={{ fetchSize: 5 }}>
+        scrollPolicyOptions={{ fetchSize: 5 }}
+      >
         <template slot="itemTemplate" render={listItemRenderer}></template>
       </oj-list-view>
     </div>
