@@ -28,7 +28,7 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
   );
 };
 
-export function ActivityContainer() {
+const ActivityContainer = () => {
   return (
     <div
       id="activitiesContainer"
@@ -50,4 +50,6 @@ export function ActivityContainer() {
       </oj-list-view>
     </div>
   );
-}
+};
+
+export default ActivityContainer;

@@ -1,10 +1,10 @@
 import { h } from "preact";
 
 type Props = {
-  item?:string;
-}
+  item?: string;
+};
 
-export function ItemDetailContainer(props:Props) {
+const ItemDetailContainer = (props: Props) => {
   return (
     <div
       id="itemDetailsContainer"
@@ -14,4 +14,6 @@ export function ItemDetailContainer(props:Props) {
       {props.item}
     </div>
   );
-}
+};
+
+export default ItemDetailContainer;

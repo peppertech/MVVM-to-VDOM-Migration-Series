@@ -1,20 +1,22 @@
-import { h, Component, ComponentChild } from "preact";
-import * as ResponsiveUtils from "ojs/ojresponsiveutils";
 import "ojs/ojtoolbar";
 import "ojs/ojmenu";
 import "ojs/ojbutton";
 
+import * as ResponsiveUtils from "ojs/ojresponsiveutils";
+
+import { Component, ComponentChild, h } from "preact";
+
 type Props = {
-  appName: string,
-  userLogin: string
-}
+  appName: string;
+  userLogin: string;
+};
 
 type State = {
-  displayType: "all" | "icons",
-  endIconClass: string
-}
+  displayType: "all" | "icons";
+  endIconClass: string;
+};
 
-export class Header extends Component<Props, State> {
+class Header extends Component<Props, State> {
   private mediaQuery: MediaQueryList;
 
   constructor(props: Props) {
@@ -26,7 +28,7 @@ export class Header extends Component<Props, State> {
     const endIconClass = this._getEndIconClassFromDisplayType(displayType);
     this.state = {
       displayType,
-      endIconClass
+      endIconClass,
     };
   }
 
@@ -39,26 +41,40 @@ export class Header extends Component<Props, State> {
               role="img"
               class="oj-icon demo-oracle-icon"
               title="Oracle Logo"
-              alt="Oracle Logo"></span>
+              alt="Oracle Logo"
+            ></span>
             <h1
               class="oj-sm-only-hide oj-web-applayout-header-title"
-              title="Application Name">
+              title="Application Name"
+            >
               {props.appName}
             </h1>
           </div>
           <div class="oj-flex-bar-end">
-          <oj-toolbar>
-            <oj-menu-button id="userMenu" display={state.displayType} chroming="borderless">
-              <span>{props.userLogin}</span>
-              <span slot="endIcon" class={state.endIconClass}></span>
-              <oj-menu id="menu1" slot="menu">
-                <oj-option id="pref" value="pref">Preferences</oj-option>
-                <oj-option id="help" value="help">Help</oj-option>
-                <oj-option id="about" value="about">About</oj-option>
-                <oj-option id="out" value="out">Sign Out</oj-option>
-              </oj-menu>
-            </oj-menu-button>
-          </oj-toolbar>
+            <oj-toolbar>
+              <oj-menu-button
+                id="userMenu"
+                display={state.displayType}
+                chroming="borderless"
+              >
+                <span>{props.userLogin}</span>
+                <span slot="endIcon" class={state.endIconClass}></span>
+                <oj-menu id="menu1" slot="menu">
+                  <oj-option id="pref" value="pref">
+                    Preferences
+                  </oj-option>
+                  <oj-option id="help" value="help">
+                    Help
+                  </oj-option>
+                  <oj-option id="about" value="about">
+                    About
+                  </oj-option>
+                  <oj-option id="out" value="out">
+                    Sign Out
+                  </oj-option>
+                </oj-menu>
+              </oj-menu-button>
+            </oj-toolbar>
           </div>
         </div>
       </header>
@@ -70,7 +86,10 @@ export class Header extends Component<Props, State> {
   }
 
   componentWillUnmount() {
-    this.mediaQuery.removeEventListener("change", this._mediaQueryChangeListener);
+    this.mediaQuery.removeEventListener(
+      "change",
+      this._mediaQueryChangeListener
+    );
   }
 
   _mediaQueryChangeListener(mediaQuery) {
@@ -78,7 +97,7 @@ export class Header extends Component<Props, State> {
     const endIconClass = this._getEndIconClassFromDisplayType(displayType);
     this.setState({
       displayType,
-      endIconClass
+      endIconClass,
     });
   }
 
@@ -87,8 +106,10 @@ export class Header extends Component<Props, State> {
   }
 
   _getEndIconClassFromDisplayType(displayType) {
-    return displayType === "icons" ?
-      "oj-icon demo-appheader-avatar" :
-      "oj-component-icon oj-button-menu-dropdown-icon"
+    return displayType === "icons"
+      ? "oj-icon demo-appheader-avatar"
+      : "oj-component-icon oj-button-menu-dropdown-icon";
   }
 }
+
+export default Header;

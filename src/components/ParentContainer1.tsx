@@ -1,12 +1,12 @@
+import ActivityContainer from "./Activity/ActivityContainer";
+import ParentContainer2 from "./ParentContainer2";
 import { h } from "preact";
-import { ActivityContainer } from "./Activity/ActivityContainer";
-import { ParentContainer2 } from "./ParentContainer2";
 
 let activitySelected: boolean;
 let activity: string;
 let selectedItem: string;
 
-export function ParentContainer1() {
+const ParentContainer1 = () => {
   activitySelected = true;
   selectedItem = "soccer";
   return (
@@ -15,7 +15,9 @@ export function ParentContainer1() {
       class="oj-flex oj-flex-init oj-panel oj-bg-warning-20"
     >
       <ActivityContainer />
-     { activitySelected && <ParentContainer2 activity={selectedItem}/> }
+      {activitySelected && <ParentContainer2 activity={selectedItem} />}
     </div>
   );
-}
+};
+
+export default ParentContainer1;
