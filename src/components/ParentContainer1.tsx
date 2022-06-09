@@ -42,7 +42,7 @@ const ParentContainer1 = () => {
         value={defaultActivity}
         onActivityChanged={activityChangedHandler}
       />
-      {showActiveItems && (
+      {showActiveItems() && (
         <ParentContainer2 activity={selectedActivity as KeySetImpl<string>} />
       )}
     </div>

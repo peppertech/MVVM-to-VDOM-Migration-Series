@@ -1,7 +1,7 @@
 import { Component, ComponentChild, h } from "preact";
 import { ExtendGlobalProps, customElement } from "ojs/ojvcomponent";
 
-import { Content } from "./Content/Content";
+import Content from "./Content/Content";
 import Footer from "./Footer";
 import Header from "./Header";
 
