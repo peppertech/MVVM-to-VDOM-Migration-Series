@@ -1,7 +1,7 @@
 import { Component, ComponentChild, h } from "preact";
 import { ExtendGlobalProps, customElement } from "ojs/ojvcomponent";
 
-import { Content } from "./Content/Content";
+import Content from "./Content/Content";
 import Footer from "./Footer";
 import Header from "./Header";
 
@@ -24,7 +24,7 @@ export class App extends Component<ExtendGlobalProps<Props>> {
       <div id="appContainer" class="oj-web-applayout-page">
         <Header appName={props.appName} userLogin={props.userLogin} />
         <Content />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }

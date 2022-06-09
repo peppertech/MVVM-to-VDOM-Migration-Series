@@ -1,22 +1,22 @@
 import ActivityItemContainer from "./ActivityItem/ActivityItemContainer";
 import ItemDetailContainer from "./ItemDetail/ItemDetailContainer";
 import { h } from "preact";
+import {useState} from "preact/hooks";
+import { KeySetImpl, KeySet } from "ojs/ojkeyset";
 
 type Props = {
-  activity: string;
-};
+  activity?: KeySetImpl<string>;
+}
 
-let itemSelected: string;
-
-const ParentContainer2 = (props: Props) => {
-  itemSelected = "gloves";
+const ParentContainer2 = (props:Props) => {
+  let showItems = true;
   return (
     <div
       id="parentContainer2"
-      class="oj-flex oj-flex-item oj-panel oj-bg-danger-30 oj-lg-padding-6x oj-md-8 oj-sm-12"
+      class="oj-flex oj-flex-item oj-lg-padding-6x oj-md-8 oj-sm-12"
     >
       <ActivityItemContainer activity={props.activity} />
-      {itemSelected && <ItemDetailContainer item={itemSelected} />}
+      { showItems && <ItemDetailContainer item={props.activity} />}
     </div>
   );
 };

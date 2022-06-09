@@ -1,7 +1,7 @@
 import ParentContainer1 from "../ParentContainer1";
 import { h } from "preact";
 
-export function Content() {
+const Content = () => {
   return (
     <div class="oj-web-applayout-max-width oj-web-applayout-content">
       <h1>Product Information</h1>
@@ -9,3 +9,5 @@ export function Content() {
     </div>
   );
 }
+
+export default Content;

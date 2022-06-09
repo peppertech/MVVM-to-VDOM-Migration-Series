@@ -1,17 +1,18 @@
 import { h } from "preact";
+import { KeySetImpl, KeySet } from "ojs/ojkeyset";
 
 type Props = {
-  item?: string;
+  item?: KeySetImpl<string>;
 };
 
 const ItemDetailContainer = (props: Props) => {
   return (
     <div
       id="itemDetailsContainer"
-      class="oj-flex-item oj-panel oj-bg-neutral-30 oj-md-6 oj-sm-12"
+      class="oj-flex-item oj-md-6 oj-sm-12"
     >
       <h3>Item Details</h3>
-      {props.item}
+      {Array.from(props.item.values())[0]}
     </div>
   );
 };
