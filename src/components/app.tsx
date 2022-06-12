@@ -10,12 +10,7 @@ const sampleReducer = (state = { message: "Hello, Redux!" }, action) => {
   // Check to see if the reducer cares about this action
   if (action.type === "message/update") {
     // If so, make a copy of `state`
-    console.log("in the action type of message update");
-    return {
-      ...state,
-      // and update the copy with the new value
-      message: action.payload
-    };
+    return { message: action.message };
   }
   // otherwise return the existing state unchanged
   return state;
