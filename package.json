@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "An Oracle JavaScript Extension Toolkit(JET) web app",
   "dependencies": {
-    "@oracle/oraclejet": "~12.1.0"
+    "@oracle/oraclejet": "~12.1.0",
+    "@reduxjs/toolkit": "^1.8.2",
+    "react-redux": "^8.0.2"
   },
   "devDependencies": {
     "@oracle/oraclejet-tooling": "~12.1.0",

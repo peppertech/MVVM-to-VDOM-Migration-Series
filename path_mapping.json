@@ -95,17 +95,13 @@
       "cdn": "jet",
       "cwd": "node_modules/@oracle/oraclejet/dist/js/libs/oj",
       "debug": {
-        "src": [
-          "debug*/**"
-        ],
+        "src": ["debug*/**"],
         "path": "libs/oj/v#{version}",
         "pathSuffix": "/debug'",
         "cdnPath": ""
       },
       "release": {
-        "src": [
-          "min*/**"
-        ],
+        "src": ["min*/**"],
         "path": "libs/oj/v#{version}",
         "pathSuffix": "/min'",
         "cdnPath": ""
@@ -129,16 +125,12 @@
       "cdn": "jet",
       "cwd": "node_modules/@oracle/oraclejet/dist/js/libs/oj/resources",
       "debug": {
-        "src": [
-          "**"
-        ],
+        "src": ["**"],
         "path": "libs/oj/v#{version}/resources",
         "cdnPath": "resources"
       },
       "release": {
-        "src": [
-          "**"
-        ],
+        "src": ["**"],
         "path": "libs/oj/v#{version}/resources",
         "cdnPath": "resources"
       }
@@ -148,17 +140,13 @@
       "cwd": "node_modules/@oracle/oraclejet/dist/js/libs/persist",
       "debug": {
         "cwd": "debug",
-        "src": [
-          "**"
-        ],
+        "src": ["**"],
         "path": "libs/persist/debug",
         "cdnPath": "persist/debug"
       },
       "release": {
         "cwd": "min",
-        "src": [
-          "**"
-        ],
+        "src": ["**"],
         "path": "libs/persist/min",
         "cdnPath": "persist/min"
       }
@@ -209,18 +197,12 @@
       "cdn": "3rdparty",
       "cwd": "node_modules/preact/dist",
       "debug": {
-        "src": [
-          "preact.umd.js",
-          "preact.umd.js.map"
-        ],
+        "src": ["preact.umd.js", "preact.umd.js.map"],
         "path": "libs/preact/dist/preact.umd.js",
         "cdnPath": "preact/dist/preact.umd"
       },
       "release": {
-        "src": [
-          "preact.umd.js",
-          "preact.umd.js.map"
-        ],
+        "src": ["preact.umd.js", "preact.umd.js.map"],
         "path": "libs/preact/dist/preact.umd.js",
         "cdnPath": "preact/dist/preact.umd"
       }
@@ -229,18 +211,12 @@
       "cdn": "3rdparty",
       "cwd": "node_modules/preact/hooks/dist",
       "debug": {
-        "src": [
-          "hooks.umd.js",
-          "hooks.umd.js.map"
-        ],
+        "src": ["hooks.umd.js", "hooks.umd.js.map"],
         "path": "libs/preact/hooks/dist/hooks.umd.js",
         "cdnPath": "preact/hooks/dist/hooks.umd"
       },
       "release": {
-        "src": [
-          "hooks.umd.js",
-          "hooks.umd.js.map"
-        ],
+        "src": ["hooks.umd.js", "hooks.umd.js.map"],
         "path": "libs/preact/hooks/dist/hooks.umd.js",
         "cdnPath": "preact/hooks/dist/hooks.umd"
       }
@@ -249,18 +225,12 @@
       "cdn": "3rdparty",
       "cwd": "node_modules/preact/compat/dist",
       "debug": {
-        "src": [
-          "compat.umd.js",
-          "compat.umd.js.map"
-        ],
+        "src": ["compat.umd.js", "compat.umd.js.map"],
         "path": "libs/preact/compat/dist/compat.umd.js",
         "cdnPath": "preact/compat/dist/compat.umd"
       },
       "release": {
-        "src": [
-          "compat.umd.js",
-          "compat.umd.js.map"
-        ],
+        "src": ["compat.umd.js", "compat.umd.js.map"],
         "path": "libs/preact/compat/dist/compat.umd.js",
         "cdnPath": "preact/compat/dist/compat.umd"
       }
@@ -269,18 +239,12 @@
       "cdn": "3rdparty",
       "cwd": "node_modules/preact/debug/dist",
       "debug": {
-        "src": [
-          "debug.umd.js",
-          "debug.umd.js.map"
-        ],
+        "src": ["debug.umd.js", "debug.umd.js.map"],
         "path": "libs/preact/debug/dist/debug.umd.js",
         "cdnPath": "preact/debug/dist/debug.umd"
       },
       "release": {
-        "src": [
-          "debug.umd.js",
-          "debug.umd.js.map"
-        ],
+        "src": ["debug.umd.js", "debug.umd.js.map"],
         "path": "libs/preact/debug/dist/debug.umd.js",
         "cdnPath": "preact/debug/dist/debug.umd"
       }
@@ -289,18 +253,12 @@
       "cdn": "3rdparty",
       "cwd": "node_modules/preact/devtools/dist",
       "debug": {
-        "src": [
-          "devtools.umd.js",
-          "devtools.umd.js.map"
-        ],
+        "src": ["devtools.umd.js", "devtools.umd.js.map"],
         "path": "libs/preact/devtools/dist/devtools.umd.js",
         "cdnPath": "preact/devtools/dist/devtools.umd"
       },
       "release": {
-        "src": [
-          "devtools.umd.js",
-          "devtools.umd.js.map"
-        ],
+        "src": ["devtools.umd.js", "devtools.umd.js.map"],
         "path": "libs/preact/devtools/dist/devtools.umd.js",
         "cdnPath": "preact/devtools/dist/devtools.umd"
       }
@@ -323,20 +281,12 @@
       "cdn": "3rdparty",
       "cwd": "node_modules/require-css",
       "debug": {
-        "src": [
-          "css.js",
-          "css-builder.js",
-          "normalize.js"
-        ],
+        "src": ["css.js", "css-builder.js", "normalize.js"],
         "path": "libs/require-css/css.js",
         "cdnPath": "require-css/css"
       },
       "release": {
-        "src": [
-          "css.min.js",
-          "css-builder.js",
-          "normalize.js"
-        ],
+        "src": ["css.min.js", "css-builder.js", "normalize.js"],
         "path": "libs/require-css/css.min.js",
         "cdnPath": "require-css/css.min"
       }
@@ -345,17 +295,13 @@
       "cdn": "jet",
       "cwd": "node_modules/@oracle/oraclejet/dist/js/libs/oj",
       "debug": {
-        "src": [
-          "debug/ojcss.js"
-        ],
+        "src": ["debug/ojcss.js"],
         "path": "libs/oj/v#{version}",
         "pathSuffix": "/debug/ojcss'",
         "cdnPath": "ojcss"
       },
       "release": {
-        "src": [
-          "min/ojcss.js"
-        ],
+        "src": ["min/ojcss.js"],
         "path": "libs/oj/v#{version}",
         "pathSuffix": "/min/ojcss'",
         "cdnPath": "ojcss"
@@ -365,20 +311,40 @@
       "cdn": "jet",
       "cwd": "node_modules/@oracle/oraclejet/dist/js/libs/oj",
       "debug": {
-        "src": [
-          "debug/ojcss.js"
-        ],
+        "src": ["debug/ojcss.js"],
         "path": "libs/oj/v#{version}",
         "pathSuffix": "/debug/ojcss'",
         "cdnPath": "ojcss"
       },
       "release": {
-        "src": [
-          "min/ojcss.js"
-        ],
+        "src": ["min/ojcss.js"],
         "path": "libs/oj/v#{version}",
         "pathSuffix": "/min/ojcss'",
         "cdnPath": "ojcss"
+      }
+    },
+    "@reduxjs/toolkit": {
+      "cwd": "node_modules/@reduxjs/toolkit/dist",
+      "debug": {
+        "src": ["redux-toolkit.umd.js", "redux-toolkit.umd.js.map"],
+        "path": "libs/reduxjs/toolkit/dist/redux-toolkit.umd.js"
+      },
+      "release": {
+        "src": ["redux-toolkit.umd.min.js", "redux-toolkit.umd.min.js.map"],
+        "path": "libs/reduxjs/toolkit/dist/redux-toolkit.umd.min.js"
+      }
+    },
+    "react-redux": {
+      "cdn": "3rdparty",
+      "cwd": "node_modules/react-redux/dist",
+      "debug": {
+        "src": "react-redux.js",
+        "path": "libs/redux-react/react-redux.js"
+      },
+      "release": {
+        "src": "react-redux.js",
+        "path": "react-redux.min.js",
+        "cdnPath": "libs/redux-react/react-redux.min"
       }
     }
   }

@@ -19,7 +19,9 @@
     "paths": {
       "ojs/*": [
         "./node_modules/@oracle/oraclejet/dist/types/*"
-      ]
+      ],
+      "react": ["./node_modules/preact/compat"],
+      "react-dom": ["./node_modules/preact/compat"]
     },
     "declaration": true,
     "noEmitOnError": true,
