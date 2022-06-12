@@ -1,29 +1,28 @@
-import { Component, ComponentChild, h } from "preact";
+import Content from "./Content/Content";
+import Header from "./Header";
+import { Component, ComponentChild, h, createContext } from "preact";
 import { ExtendGlobalProps, customElement } from "ojs/ojvcomponent";
+import Context = require("ojs/ojcontext");
 import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit"
+import { configureStore } from "@reduxjs/toolkit";
 
-const sampleReducer = (state = {message: "Hello, Redux!"}, action) => {
+const sampleReducer = (state = { message: "Hello, Redux!" }, action) => {
   // Check to see if the reducer cares about this action
-  if (action.type === 'message/update') {
+  if (action.type === "message/update") {
     // If so, make a copy of `state`
-    console.log('in the action type of message update')
+    console.log("in the action type of message update");
     return {
       ...state,
       // and update the copy with the new value
       message: action.payload
-    }
+    };
   }
   // otherwise return the existing state unchanged
-  return state
-}
+  return state;
+};
 const store = configureStore({ reducer: sampleReducer });
 
-import Content from "./Content/Content";
-import Footer from "./Footer";
-import Header from "./Header";
-
-import Context = require("ojs/ojcontext");
+export const ThemeContext = createContext(null);
 
 type Props = {
   appName?: string;
@@ -42,8 +41,9 @@ export class App extends Component<ExtendGlobalProps<Props>> {
       <div id="appContainer" class="oj-web-applayout-page">
         <Provider store={store}>
           <Header appName={props.appName} userLogin={props.userLogin} />
+          <ThemeContext.Provider value="dark">
           <Content />
-          {/* <Footer /> */}
+          </ThemeContext.Provider>
         </Provider>
       </div>
     );
