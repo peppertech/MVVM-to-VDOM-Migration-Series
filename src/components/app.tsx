@@ -17,14 +17,12 @@ const sampleReducer = (state = { message: "Hello, Redux!" }, action) => {
 };
 const store = configureStore({ reducer: sampleReducer });
 
-export const ThemeContext = createContext(null);
+export const ThemeContext = createContext("redwood");
 
 type Props = {
   appName?: string;
   userLogin?: string;
 };
-
-
 
 @customElement("app-root")
 export class App extends Component<ExtendGlobalProps<Props>> {
@@ -33,12 +31,12 @@ export class App extends Component<ExtendGlobalProps<Props>> {
     userLogin: "john.hancock@oracle.com",
   };
 
-  state = {theme: 'dark'};
+  state = { theme: "redwood" };
 
   updateTheme = () => {
-    console.log('in update')
-    this.setState({theme:'light'});
-  }
+    console.log("in update");
+    this.setState({ theme: "stable" });
+  };
 
   render(props: ExtendGlobalProps<Props>): ComponentChild {
     return (
@@ -47,7 +45,7 @@ export class App extends Component<ExtendGlobalProps<Props>> {
           <Header appName={props.appName} userLogin={props.userLogin} />
           <ThemeContext.Provider value={this.state.theme}>
             <oj-button onojAction={this.updateTheme}>Update Theme</oj-button>
-          <Content />
+            <Content />
           </ThemeContext.Provider>
         </Provider>
       </div>

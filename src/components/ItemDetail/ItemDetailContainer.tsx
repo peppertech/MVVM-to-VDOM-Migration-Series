@@ -14,6 +14,8 @@ const ItemDetailContainer = (props: Props) => {
   const messageData = useSelector((state:any) => state.message);
 
   const theme = useContext(ThemeContext);
+
+
   const updateMessage = () => {
     dispatch({
       type: "message/update",
