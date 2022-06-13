@@ -17,5 +17,9 @@
   "engines": {
     "node": ">=12.21.0"
   },
-  "private": true
+  "private": true,
+  "scripts": {
+    "serve": "npx @oracle/ojet-cli serve --server-port=8001 --livereload-port=35723",
+    "build": "npx @oracle/ojet-cli build"
+  }
 }
