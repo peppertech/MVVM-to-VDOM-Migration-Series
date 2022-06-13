@@ -24,6 +24,8 @@ type Props = {
   userLogin?: string;
 };
 
+
+
 @customElement("app-root")
 export class App extends Component<ExtendGlobalProps<Props>> {
   static defaultProps: Props = {
@@ -31,12 +33,20 @@ export class App extends Component<ExtendGlobalProps<Props>> {
     userLogin: "john.hancock@oracle.com",
   };
 
+  state = {theme: 'dark'};
+
+  updateTheme = () => {
+    console.log('in update')
+    this.setState({theme:'light'});
+  }
+
   render(props: ExtendGlobalProps<Props>): ComponentChild {
     return (
       <div id="appContainer" class="oj-web-applayout-page">
         <Provider store={store}>
           <Header appName={props.appName} userLogin={props.userLogin} />
-          <ThemeContext.Provider value="dark">
+          <ThemeContext.Provider value={this.state.theme}>
+            <oj-button onojAction={this.updateTheme}>Update Theme</oj-button>
           <Content />
           </ThemeContext.Provider>
         </Provider>
