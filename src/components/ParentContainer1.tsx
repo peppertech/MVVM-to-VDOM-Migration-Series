@@ -43,7 +43,7 @@ const ParentContainer1 = () => {
         onActivityChanged={activityChangedHandler}
       />
       {showActiveItems() && (
-        <ParentContainer2 activity={selectedActivity as KeySetImpl<string>} />
+        <ParentContainer2 activity={(selectedActivity as KeySetImpl<string>).values().entries().next().value[0]} />
       )}
     </div>
   );
