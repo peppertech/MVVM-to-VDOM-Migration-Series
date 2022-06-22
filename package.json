@@ -6,6 +6,7 @@
     "@oracle/oraclejet": "~12.1.0"
   },
   "devDependencies": {
+    "@oracle/ojet-cli": "~12.1.0",
     "@oracle/oraclejet-tooling": "~12.1.0",
     "fs-extra": "^8.1.0",
     "glob": "^7.1.1",
@@ -17,7 +18,7 @@
   },
   "private": true,
   "scripts": {
-    "serve": "npx @oracle/ojet-cli serve --server-port=8001 --livereload-port=35723",
-    "build": "npx @oracle/ojet-cli build"
+    "serve": "ojet serve --server-port=8001 --livereload-port=35723",
+    "build": "ojet build"
   }
 }
