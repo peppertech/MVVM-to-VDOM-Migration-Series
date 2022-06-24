@@ -1,5 +1,5 @@
-import { h } from "preact";
-import { useMemo, useCallback, useState } from "preact/hooks";
+import { h, ComponentProps } from "preact";
+import { useState } from "preact/hooks";
 import { KeySetImpl, KeySet } from "ojs/ojkeyset";
 import "ojs/ojlistview";
 import { ojListView } from "ojs/ojlistview";
@@ -30,6 +30,9 @@ type ActivityItem = {
   image: string;
 };
 
+type ListViewProps = ComponentProps<"oj-list-view">;
+const gridlinesItemVisible: ListViewProps["gridlines"] = { item: "visible" };
+const scrollPolicyOpts: ListViewProps["scrollPolicyOptions"] = { fetchSize: 5 };
 const data = [
   {
     id: 10,
@@ -105,47 +108,40 @@ const activityDataProvider: MutableArrayDataProvider<
   keyAttributes: "name",
 });
 
+const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
+  return (
+    <div class="oj-flex no-wrap">
+      <span
+        class="demo-thumbnail oj-flex-item"
+        style={"background-image:url(" + item.data.image + ")"}></span>
+      <div class="demo-content oj-flex-item">
+        <div>
+          <strong>{item.data.name}</strong>
+        </div>
+        <span class="demo-metadata">{item.data.short_desc}</span>
+      </div>
+    </div>
+  );
+};
+
+const DEFAULT_ACTIVITY_ITEM_STATE = new KeySetImpl([]) as KeySet<string>;
+
 const ActivityItemContainer = (props: Props) => {
   const [activityItemValue, setActivityItemValue] = useState(
-    new KeySetImpl([""]) as KeySet<string>
+    DEFAULT_ACTIVITY_ITEM_STATE
   );
-  const selectedActivityItemChanged = useCallback(
-    (event: ojListView.selectedChanged<ActivityItem["name"], ActivityItem>) => {
-      if ((event.detail.value as KeySetImpl<string>).values().size > 0) {
-        props.onItemChanged(
-          Array.from((event.detail.value as KeySetImpl<string>).values())[0]
-        );
-      } else {
-        props.onItemChanged("Nothing selected");
-      }
-      setActivityItemValue(event.detail.value);
-    },
-    [activityItemValue]
-  );
-  const activityValue = useMemo(() => {
-    return new KeySetImpl([props.selectedActivity]) as KeySet<
-      ActivityItem["name"]
-    >;
-  }, [props.selectedActivity]);
-
-  const listItemRenderer = useCallback(
-    (item: ojListView.ItemTemplateContext) => {
-      return (
-        <div class="oj-flex no-wrap">
-          <span
-            class="demo-thumbnail oj-flex-item"
-            style={"background-image:url(" + item.data.image + ")"}></span>
-          <div class="demo-content oj-flex-item">
-            <div>
-              <strong>{item.data.name}</strong>
-            </div>
-            <span class="demo-metadata">{item.data.short_desc}</span>
-          </div>
-        </div>
+  const selectedActivityItemChanged = (
+    event: ojListView.selectedChanged<ActivityItem["name"], ActivityItem>
+  ) => {
+    if ((event.detail.value as KeySetImpl<string>).values().size > 0) {
+      props.onItemChanged(
+        Array.from((event.detail.value as KeySetImpl<string>).values())[0]
       );
-    },
-    [activityValue]
-  );
+    } else {
+      props.onItemChanged("Nothing selected");
+    }
+    setActivityItemValue(event.detail.value);
+  };
 
   return (
     <div
@@ -159,12 +155,12 @@ const ActivityItemContainer = (props: Props) => {
           class="item-display"
           aria-labelledby="activitiesHeader"
           data={activityDataProvider}
-          gridlines={{ item: "visible" }}
+          gridlines={gridlinesItemVisible}
           selectionMode="single"
           selected={activityItemValue}
           onselectedChanged={selectedActivityItemChanged}
           scroll-policy="loadMoreOnScroll"
-          scrollPolicyOptions={{ fetchSize: 5 }}>
+          scrollPolicyOptions={scrollPolicyOpts}>
           <template slot="itemTemplate" render={listItemRenderer}></template>
         </oj-list-view>
       </div>

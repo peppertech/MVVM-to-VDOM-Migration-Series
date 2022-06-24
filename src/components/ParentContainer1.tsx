@@ -1,7 +1,7 @@
 import ActivityContainer from "./Activity/ActivityContainer";
 import ParentContainer2 from "./ParentContainer2";
 import { h } from "preact";
-import { useState, useCallback } from "preact/hooks";
+import { useState } from "preact/hooks";
 import { KeySetImpl, KeySet } from "ojs/ojkeyset";
 
 type Activity = {
@@ -23,7 +23,7 @@ const ParentContainer1 = () => {
     return (selectedActivity as KeySetImpl<string>).values().size > 0 ? true : false;
   };
   
-  const activityChangedHandler = useCallback((value: KeySet<string>) => {
+  const activityChangedHandler = (value: KeySet<string>) => {
     if ((value as KeySetImpl<string>).values().size > 0) {
       console.log(
         (value as KeySetImpl<string>).values().entries().next().value[0]
@@ -32,7 +32,7 @@ const ParentContainer1 = () => {
       console.log("Nothing selected");
     }
     setSelectedActivity(value);
-  }, []);
+  };
 
   return (
     <div id="parentContainer1" class="oj-flex oj-flex-init">

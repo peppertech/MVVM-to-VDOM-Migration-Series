@@ -1,4 +1,4 @@
-import { h } from "preact";
+import { h, ComponentProps } from "preact";
 import { useState, useCallback, useEffect, useMemo } from "preact/hooks";
 import "ojs/ojlistview";
 import { KeySetImpl, KeySet } from "ojs/ojkeyset";
@@ -16,6 +16,10 @@ type Props = {
   value?: string;
   onActivityChanged: (value: KeySet<string>) => void;
 };
+
+type ListViewProps = ComponentProps<"oj-list-view">;
+const gridlinesItemVisible: ListViewProps["gridlines"] = { item: "visible" };
+const scrollPolicyOpts: ListViewProps["scrollPolicyOptions"] = { fetchSize: 5 };
 
 let activityDataProvider: MutableArrayDataProvider<string, {}> =
   new MutableArrayDataProvider(JSON.parse(storeData), {
@@ -39,35 +43,30 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
 };
 
 const ActivityContainer = (props: Props) => {
-  const selectedActivityChanged = useCallback(
-    (event: ojListView.selectedChanged<Activity["name"], Activity>) => {
+  const selectedActivityChanged = (event: ojListView.selectedChanged<Activity["name"], Activity>) => {
       props.onActivityChanged(event.detail.value);
-    },
-    [props.onActivityChanged]
-  );
+    };
 
-const activityValue = useMemo(() => {
-  return new KeySetImpl([props.value]) as KeySet<Activity['name']>
-},[props.value])
+  const activityValue = useMemo(() => {
+    return new KeySetImpl([props.value]) as KeySet<Activity["name"]>;
+  }, [props.value]);
 
   return (
     <div
       id="activitiesContainer"
-      class="oj-flex-item oj-sm-padding-4x-start oj-sm-only-text-align-start oj-md-4 oj-sm-12"
-    >
+      class="oj-flex-item oj-sm-padding-4x-start oj-sm-only-text-align-start oj-md-4 oj-sm-12">
       <h3 id="activitiesHeader">Activities</h3>
       <oj-list-view
         id="activitiesList"
         class="item-display"
         aria-labelledby="activitiesHeader"
         data={activityDataProvider}
-        gridlines={{ item: "visible" }}
+        gridlines={gridlinesItemVisible}
         selectionMode="single"
         selected={activityValue}
         onselectedChanged={selectedActivityChanged}
         scroll-policy="loadMoreOnScroll"
-        scrollPolicyOptions={{ fetchSize: 5 }}
-      >
+        scrollPolicyOptions={scrollPolicyOpts}>
         <template slot="itemTemplate" render={listItemRenderer}></template>
       </oj-list-view>
     </div>
