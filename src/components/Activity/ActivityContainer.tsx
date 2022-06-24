@@ -13,7 +13,7 @@ type Activity = {
 };
 
 type Props = {
-  value: string;
+  value?: string;
   onActivityChanged: (value: KeySet<string>) => void;
 };
 

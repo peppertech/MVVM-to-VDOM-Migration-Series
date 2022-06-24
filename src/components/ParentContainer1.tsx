@@ -10,10 +10,9 @@ type Activity = {
   short_desc: string;
 };
 
-let INIT_SELECTEDACTIVITY = new KeySetImpl(["Soccer"]) as KeySet<
+let INIT_SELECTEDACTIVITY = new KeySetImpl([]) as KeySet<
   Activity["name"]
 >;
-let defaultActivity: string = "Soccer";
 
 const ParentContainer1 = () => {
   const [selectedActivity, setSelectedActivity] = useState(
@@ -21,8 +20,7 @@ const ParentContainer1 = () => {
   );
 
   const showActiveItems = () => {
-    let show = (selectedActivity as KeySetImpl<string>).values().size;
-    return show > 0 ? true : false;
+    return (selectedActivity as KeySetImpl<string>).values().size > 0 ? true : false;
   };
   
   const activityChangedHandler = useCallback((value: KeySet<string>) => {
@@ -39,11 +37,13 @@ const ParentContainer1 = () => {
   return (
     <div id="parentContainer1" class="oj-flex oj-flex-init">
       <ActivityContainer
-        value={defaultActivity}
         onActivityChanged={activityChangedHandler}
       />
       {showActiveItems() && (
         <ParentContainer2 activity={(selectedActivity as KeySetImpl<string>).values().entries().next().value[0]} />
+      )}
+      {!showActiveItems() && (
+        <h4 class="oj-typography-subheading-sm">Select activity to view items</h4>
       )}
     </div>
   );

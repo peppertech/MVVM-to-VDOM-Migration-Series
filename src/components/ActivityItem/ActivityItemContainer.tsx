@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { useMemo, useCallback } from "preact/hooks";
+import { useMemo, useCallback, useState } from "preact/hooks";
 import { KeySetImpl, KeySet } from "ojs/ojkeyset";
 import "ojs/ojlistview";
 import { ojListView } from "ojs/ojlistview";
@@ -7,6 +7,7 @@ import MutableArrayDataProvider = require("ojs/ojmutablearraydataprovider");
 
 type Props = {
   selectedActivity?: string;
+  data?: string;
   onItemChanged?: (value: string) => void;
 };
 type Item = {
@@ -96,34 +97,35 @@ const data = [
     activity_id: 1,
     image: "styles/images/product_images/jet_logo_256.png",
   },
-  {
-    id: 19263,
-    name: "확실한 불공(4세트)",
-    short_desc: "연습용 불공",
-    price: 20.5,
-    quantity: 96,
-    quantity_shipped: 61,
-    quantity_instock: 35,
-    activity_id: 1,
-    image: "styles/images/product_images/jet_logo_256.png",
-  },
 ];
-const activityDataProvider: MutableArrayDataProvider<ActivityItem['name'],ActivityItem> = new MutableArrayDataProvider(data, {
+const activityDataProvider: MutableArrayDataProvider<
+  ActivityItem["name"],
+  ActivityItem
+> = new MutableArrayDataProvider(data, {
   keyAttributes: "name",
 });
 
 const ActivityItemContainer = (props: Props) => {
-
+  const [activityItemValue, setActivityItemValue] = useState(
+    new KeySetImpl([""]) as KeySet<string>
+  );
   const selectedActivityItemChanged = useCallback(
     (event: ojListView.selectedChanged<ActivityItem["name"], ActivityItem>) => {
-      props.onItemChanged(
-        Array.from((event.detail.value as KeySetImpl<string>).values())[0]
-      );
+      if ((event.detail.value as KeySetImpl<string>).values().size > 0) {
+        props.onItemChanged(
+          Array.from((event.detail.value as KeySetImpl<string>).values())[0]
+        );
+      } else {
+        props.onItemChanged("Nothing selected");
+      }
+      setActivityItemValue(event.detail.value);
     },
-    []
+    [activityItemValue]
   );
   const activityValue = useMemo(() => {
-    return new KeySetImpl([props.selectedActivity]) as KeySet<ActivityItem["name"]>;
+    return new KeySetImpl([props.selectedActivity]) as KeySet<
+      ActivityItem["name"]
+    >;
   }, [props.selectedActivity]);
 
   const listItemRenderer = useCallback(
@@ -151,7 +153,7 @@ const ActivityItemContainer = (props: Props) => {
       class="oj-flex-item oj-sm-padding-4x-start oj-md-6 oj-sm-12">
       <div id="container">
         <h3>Activity Items</h3>
-        {'This: '+props.selectedActivity}
+        {"This: " + props.selectedActivity}
         <oj-list-view
           id="activitiesList"
           class="item-display"
@@ -159,7 +161,7 @@ const ActivityItemContainer = (props: Props) => {
           data={activityDataProvider}
           gridlines={{ item: "visible" }}
           selectionMode="single"
-          selected={activityValue}
+          selected={activityItemValue}
           onselectedChanged={selectedActivityItemChanged}
           scroll-policy="loadMoreOnScroll"
           scrollPolicyOptions={{ fetchSize: 5 }}>
