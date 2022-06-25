@@ -10,16 +10,16 @@ type Props = {
   item?: string;
 };
 
-type TChartProps = ComponentProps<"oj-chart">;
+type ChartProps = ComponentProps<"oj-chart">;
 
-type TChartItem = {
+type ChartItem = {
   id: number;
   series: string;
   group: string;
   value: number;
 };
 
-type TChartType = {
+type ChartType = {
   id: number;
   value: string;
   label: string;
@@ -95,24 +95,24 @@ const chartTypeData = [
   { value: "area", label: "Area" },
   { value: "combo", label: "Combo" },
 ];
-const dataProvider: MutableArrayDataProvider<TChartItem["id"], TChartItem> =
+const dataProvider: MutableArrayDataProvider<ChartItem["id"], ChartItem> =
   new MutableArrayDataProvider(data, { keyAttributes: "id" });
 
-const chartTypesDP: MutableArrayDataProvider<TChartType["value"], TChartType> =
+const chartTypesDP: MutableArrayDataProvider<ChartType["value"], ChartType> =
   new MutableArrayDataProvider(chartTypeData, { keyAttributes: "value" });
 
 const ItemDetailContainer = (props: Props) => {
-  const [val, setVal] = useState("bar" as TChartProps["type"]);
+  const [val, setVal] = useState("bar" as ChartProps["type"]);
 
   const valChangeHandler = useCallback(
-    (event: ojSelectSingle.valueChanged<TChartType["value"], TChartType>) => {
-      setVal(event.detail.value as TChartProps["type"]);
+    (event: ojSelectSingle.valueChanged<ChartType["value"], ChartType>) => {
+      setVal(event.detail.value as ChartProps["type"]);
     },
     [val, setVal]
   );
 
   const chartItemTemplate = (
-    item: ojChart.ItemTemplateContext<TChartItem["id"], TChartItem>
+    item: ojChart.ItemTemplateContext<ChartItem["id"], ChartItem>
   ) => {
     return (
       <oj-chart-item
