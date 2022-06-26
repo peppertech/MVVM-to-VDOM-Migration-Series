@@ -65,7 +65,7 @@ const ActivityContainer = (props: Props) => {
         selectionMode="single"
         selected={activityValue}
         onselectedChanged={selectedActivityChanged}
-        scroll-policy="loadMoreOnScroll"
+        scrollPolicy="loadMoreOnScroll"
         scrollPolicyOptions={scrollPolicyOpts}>
         <template slot="itemTemplate" render={listItemRenderer}></template>
       </oj-list-view>
