@@ -31,7 +31,8 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
     <div class="oj-flex no-wrap">
       <span
         class="demo-thumbnail oj-flex-item"
-        style={"background-image:url(" + item.data.image + ")"}></span>
+        style={"background-image:url(" + item.data.image + ")"}
+      ></span>
       <div class="demo-content oj-flex-item">
         <div>
           <strong>{item.data.name}</strong>
@@ -43,9 +44,11 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
 };
 
 const ActivityContainer = (props: Props) => {
-  const selectedActivityChanged = (event: ojListView.selectedChanged<Activity["name"], Activity>) => {
-      props.onActivityChanged(event.detail.value);
-    };
+  const selectedActivityChanged = (
+    event: ojListView.selectedChanged<Activity["name"], Activity>
+  ) => {
+    props.onActivityChanged(event.detail.value);
+  };
 
   const activityValue = useMemo(() => {
     return new KeySetImpl([props.value]) as KeySet<Activity["name"]>;
@@ -54,7 +57,8 @@ const ActivityContainer = (props: Props) => {
   return (
     <div
       id="activitiesContainer"
-      class="oj-flex-item oj-sm-padding-4x-start oj-sm-only-text-align-start oj-md-4 oj-sm-12">
+      class="oj-flex-item oj-sm-padding-4x-start oj-sm-only-text-align-start oj-md-4 oj-sm-12"
+    >
       <h3 id="activitiesHeader">Activities</h3>
       <oj-list-view
         id="activitiesList"
@@ -66,7 +70,8 @@ const ActivityContainer = (props: Props) => {
         selected={activityValue}
         onselectedChanged={selectedActivityChanged}
         scrollPolicy="loadMoreOnScroll"
-        scrollPolicyOptions={scrollPolicyOpts}>
+        scrollPolicyOptions={scrollPolicyOpts}
+      >
         <template slot="itemTemplate" render={listItemRenderer}></template>
       </oj-list-view>
     </div>
@@ -74,3 +79,4 @@ const ActivityContainer = (props: Props) => {
 };
 
 export default ActivityContainer;
+//{gridlinesItemVisible}

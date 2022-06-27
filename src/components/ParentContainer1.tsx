@@ -10,9 +10,7 @@ type Activity = {
   short_desc: string;
 };
 
-let INIT_SELECTEDACTIVITY = new KeySetImpl([]) as KeySet<
-  Activity["name"]
->;
+let INIT_SELECTEDACTIVITY = new KeySetImpl([]) as KeySet<Activity["name"]>;
 
 const ParentContainer1 = () => {
   const [selectedActivity, setSelectedActivity] = useState(
@@ -20,9 +18,11 @@ const ParentContainer1 = () => {
   );
 
   const showActiveItems = () => {
-    return (selectedActivity as KeySetImpl<string>).values().size > 0 ? true : false;
+    return (selectedActivity as KeySetImpl<string>).values().size > 0
+      ? true
+      : false;
   };
-  
+
   const activityChangedHandler = (value: KeySet<string>) => {
     if ((value as KeySetImpl<string>).values().size > 0) {
       console.log(
@@ -36,14 +36,19 @@ const ParentContainer1 = () => {
 
   return (
     <div id="parentContainer1" class="oj-flex oj-flex-init">
-      <ActivityContainer
-        onActivityChanged={activityChangedHandler}
-      />
+      <ActivityContainer onActivityChanged={activityChangedHandler} />
       {showActiveItems() && (
-        <ParentContainer2 activity={(selectedActivity as KeySetImpl<string>).values().entries().next().value[0]} />
+        <ParentContainer2
+          activity={
+            (selectedActivity as KeySetImpl<string>).values().entries().next()
+              .value[0]
+          }
+        />
       )}
       {!showActiveItems() && (
-        <h4 class="oj-typography-subheading-sm">Select activity to view items</h4>
+        <h4 class="oj-typography-subheading-sm">
+          Select activity to view items
+        </h4>
       )}
     </div>
   );
