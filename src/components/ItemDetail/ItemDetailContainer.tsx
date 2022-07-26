@@ -19,7 +19,7 @@ type ChartItem = {
   value: number;
 };
 
-type ChartType = {
+type ChartItemType = { 
   id: number;
   value: string;
   label: string;
@@ -98,14 +98,14 @@ const chartTypeData = [
 const dataProvider: MutableArrayDataProvider<ChartItem["id"], ChartItem> =
   new MutableArrayDataProvider(data, { keyAttributes: "id" });
 
-const chartTypesDP: MutableArrayDataProvider<ChartType["value"], ChartType> =
+const chartTypesDP: MutableArrayDataProvider<ChartItemType["value"], ChartItemType> =
   new MutableArrayDataProvider(chartTypeData, { keyAttributes: "value" });
 
 const ItemDetailContainer = (props: Props) => {
-  const [val, setVal] = useState("bar" as ChartProps["type"]);
+  const [val, setVal] = useState<ChartProps["type"]>("bar");
 
   const valChangeHandler = useCallback(
-    (event: ojSelectSingle.valueChanged<ChartType["value"], ChartType>) => {
+    (event: ojSelectSingle.valueChanged<ChartItemType["value"], ChartItemType>) => {
       setVal(event.detail.value as ChartProps["type"]);
     },
     [val, setVal]
@@ -126,8 +126,7 @@ const ItemDetailContainer = (props: Props) => {
       id="itemDetailsContainer"
       class="oj-flex-item oj-sm-padding-4x-start oj-md-6 oj-sm-12">
       <h3>Item Details</h3>
-      {props.item}
-
+      {props.item}<br></br>
       <oj-select-single
         data={chartTypesDP}
         value={val}
