@@ -17,7 +17,9 @@
   },
   "private": true,
   "scripts": {
-    "serve": "npx @oracle/ojet-cli serve --server-port=8001 --livereload-port=35723",
-    "build": "npx @oracle/ojet-cli build"
+    "serve": "npx @oracle/ojet-cli@12.1.0 serve --server-port=8000 --livereload-port=35723",
+    "build": "npx @oracle/ojet-cli@12.1.0 build",
+    "strip": "npx @oracle/ojet-cli@12.1.0 strip",
+    "restore": "npx @oracle/ojet-cli@12.1.0 restore"
   }
 }
