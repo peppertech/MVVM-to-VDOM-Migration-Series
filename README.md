@@ -13,7 +13,7 @@ This project will take that Learning Path's final application and migrate it to 
 &nbsp;
 
 ## Prerequisites
-* Nodejs v12 or higher (latest LTS recommended)
+* Nodejs v14 or higher (latest LTS recommended)
 * Latest JET CLI installed (or use NPX as described below)
 
 
@@ -21,8 +21,8 @@ This project will take that Learning Path's final application and migrate it to 
 
 ## Setup
 * Clone the project
-* run *ojet restore* from the root of the project
-* run *ojet serve* from the root of the project
+* run *npm run restore* from the root of the project
+* run *npm run serve* from the root of the project
   
 &nbsp;
 
@@ -31,16 +31,9 @@ This project will take that Learning Path's final application and migrate it to 
 ### Running two projects simultaneously
 >If you are running both the MVVM and new VDOM project ( this project) at the same time, the MVVM app must run on port 8000 to use the live external REST service.
 
->You can run the VDOM project during development from a different server and livereload port by using the below command.
+>You can run the VDOM project during development from a different server and livereload port. The NPM scripts included in the package.json file now do this automatically for you when you use the below command.
 
->*ojet serve --server-port=8001 --livereload-port=35723*
+>*npm run serve*
 
 &nbsp;
 
-### Using two different versions of the JET CLI
-
->If you have two projects running different versions of JET, you will need to have two different versions of the CLI to match those runtime versions.  You can use __NPX__ for this scenario.
-
->_npx @oracle/ojet-cli@&lt;version> serve_
-
->where &lt;version> is the version of the CLI you wish to use.  Leaving off the version will use the latest production release.
