@@ -11,13 +11,30 @@ type Activity = {
   short_desc: string;
 };
 let INIT_SELECTEDACTIVITY = new KeySetImpl([]) as KeySet<Activity["name"]>;
-let INIT_DATAPROVIDER = new RESTDataProvider<Activity["id"], Activity>({
-  keyAttributes: "",
-  url: "",
+
+// Activity key attribute that you'll pass as a parameter when creating
+// RESTDataProvider instance
+let keyAttributes: string = "id";
+// REST endpoint that returns Activity data
+const restServerURLActivities: string =
+  "https://apex.oracle.com/pls/apex/oraclejet/lp/activities/";
+
+const activityDataProvider = new RESTDataProvider<Activity['id'],Activity>({
+  keyAttributes: keyAttributes,
+  url: restServerURLActivities,
   transforms: {
     fetchFirst: {
-      request: null,
-      response: null,
+      request: async (options) => {
+        const url = new URL(options.url);
+        const { size, offset } = options.fetchParameters;
+        url.searchParams.set("limit", String(size));
+        url.searchParams.set("offset", String(offset));
+        return new Request(url.href);
+      },
+      response: async ({ body }) => {
+        const { items, totalSize, hasMore } = body;
+        return { data: items, totalSize, hasMore };
+      },
     },
   },
 });
@@ -26,40 +43,6 @@ const ParentContainer1 = () => {
   const [selectedActivity, setSelectedActivity] = useState(
     INIT_SELECTEDACTIVITY
   );
-
-  // Activity key attribute that you'll pass as a parameter when creating
-  // RESTDataProvider instance
-  let keyAttributes: string = "id";
-  // REST endpoint that returns Activity data
-  const restServerURLActivities: string =
-    "https://apex.oracle.com/pls/apex/oraclejet/lp/activities/";
-  // State variable to hold the RESTDataProvider instance
-  const [activityDataProvider, setActivityDataProvider] =
-    useState(INIT_DATAPROVIDER);
-
-  useEffect(() => {
-    setActivityDataProvider(
-      new RESTDataProvider({
-        keyAttributes: keyAttributes,
-        url: restServerURLActivities,
-        transforms: {
-          fetchFirst: {
-            request: async (options) => {
-              const url = new URL(options.url);
-              const { size, offset } = options.fetchParameters;
-              url.searchParams.set("limit", String(size));
-              url.searchParams.set("offset", String(offset));
-              return new Request(url.href);
-            },
-            response: async ({ body }) => {
-              const { items, totalSize, hasMore } = body;
-              return { data: items, totalSize, hasMore };
-            },
-          },
-        },
-      })
-    );
-  }, [setActivityDataProvider]);
 
   const showActivityItems = () => {
     return (selectedActivity as KeySetImpl<string>).values().size > 0
