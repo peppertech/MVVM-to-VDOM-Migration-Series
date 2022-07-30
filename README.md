@@ -14,7 +14,7 @@ This project will take that Learning Path's final application and migrate it to 
 
 ## Prerequisites
 * Nodejs v14 or higher (latest LTS recommended)
-* Latest JET CLI installed (or use NPX as described below)
+* Latest JET CLI installed (or use the NPM scripts as described below)
 
 
 &nbsp;
