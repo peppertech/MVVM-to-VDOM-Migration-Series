@@ -3,23 +3,25 @@
   "version": "1.0.0",
   "description": "An Oracle JavaScript Extension Toolkit(JET) web app",
   "dependencies": {
-    "@oracle/oraclejet": "~12.1.0"
+    "@oracle/oraclejet": "~13.0.0"
   },
   "devDependencies": {
-    "@oracle/oraclejet-tooling": "~12.1.0",
+    "@oracle/oraclejet-tooling": "~13.0.0",
     "fs-extra": "^8.1.0",
-    "glob": "^7.1.1",
-    "typescript": "4.5.4",
-    "underscore": "^1.10.2"
+    "glob": "7.2.0",
+    "ts-creator": "1.2.5",
+    "typescript": "4.6.4",
+    "underscore": "^1.10.2",
+    "yargs-parser": "13.1.2"
   },
   "engines": {
     "node": ">=12.21.0"
   },
   "private": true,
   "scripts": {
-    "serve": "npx @oracle/ojet-cli@12.1.0 serve --server-port=8000 --livereload-port=35723",
-    "build": "npx @oracle/ojet-cli@12.1.0 build",
-    "strip": "npx @oracle/ojet-cli@12.1.0 strip",
-    "restore": "npx @oracle/ojet-cli@12.1.0 restore"
+    "serve": "npx @oracle/ojet-cli@13.0.0 serve --server-port=8001 --livereload-port=35723",
+    "build": "npx @oracle/ojet-cli@13.0.0 build",
+    "strip": "npx @oracle/ojet-cli@13.0.0 strip",
+    "restore": "npx @oracle/ojet-cli@13.0.0 restore"
   }
 }
