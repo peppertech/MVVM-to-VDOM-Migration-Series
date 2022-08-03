@@ -1,13 +1,26 @@
 import { h, ComponentProps } from "preact";
-import { useState, useCallback } from "preact/hooks";
-import MutableArrayDataProvider = require("ojs/ojmutablearraydataprovider");
+import { useState, useCallback, useEffect } from "preact/hooks";
 import "ojs/ojchart";
 import "ojs/ojselectsingle";
+import MutableArrayDataProvider = require("ojs/ojmutablearraydataprovider");
 import { ojChart } from "ojs/ojchart";
 import { ojSelectSingle } from "ojs/ojselectsingle";
 
 type Props = {
   item?: string;
+  data?: Item;
+};
+
+type Item = {
+  id: number;
+  name: string;
+  short_desc?: string;
+  price?: number;
+  quantity?: number;
+  quantity_shipped?: number;
+  quantity_instock?: number;
+  activity_id?: number;
+  image?: string;
 };
 
 type ChartProps = ComponentProps<"oj-chart">;
@@ -19,74 +32,74 @@ type ChartItem = {
   value: number;
 };
 
-type ChartItemType = { 
+type ChartItemType = {
   id: number;
   value: string;
   label: string;
 };
 
-const data = [
-  {
-    id: 0,
-    series: "Series 1",
-    group: "Group A",
-    value: 42,
-  },
-  {
-    id: 1,
-    series: "Series 1",
-    group: "Group B",
-    value: 34,
-  },
-  {
-    id: 2,
-    series: "Series 2",
-    group: "Group A",
-    value: 55,
-  },
-  {
-    id: 3,
-    series: "Series 2",
-    group: "Group B",
-    value: 30,
-  },
-  {
-    id: 4,
-    series: "Series 3",
-    group: "Group A",
-    value: 36,
-  },
-  {
-    id: 5,
-    series: "Series 3",
-    group: "Group B",
-    value: 50,
-  },
-  {
-    id: 6,
-    series: "Series 4",
-    group: "Group A",
-    value: 22,
-  },
-  {
-    id: 7,
-    series: "Series 4",
-    group: "Group B",
-    value: 46,
-  },
-  {
-    id: 8,
-    series: "Series 5",
-    group: "Group A",
-    value: 22,
-  },
-  {
-    id: 9,
-    series: "Series 5",
-    group: "Group B",
-    value: 46,
-  },
-];
+// const data = [
+//   {
+//     id: 0,
+//     series: "Series 1",
+//     group: "Group A",
+//     value: 42,
+//   },
+//   {
+//     id: 1,
+//     series: "Series 1",
+//     group: "Group B",
+//     value: 34,
+//   },
+//   {
+//     id: 2,
+//     series: "Series 2",
+//     group: "Group A",
+//     value: 55,
+//   },
+//   {
+//     id: 3,
+//     series: "Series 2",
+//     group: "Group B",
+//     value: 30,
+//   },
+//   {
+//     id: 4,
+//     series: "Series 3",
+//     group: "Group A",
+//     value: 36,
+//   },
+//   {
+//     id: 5,
+//     series: "Series 3",
+//     group: "Group B",
+//     value: 50,
+//   },
+//   {
+//     id: 6,
+//     series: "Series 4",
+//     group: "Group A",
+//     value: 22,
+//   },
+//   {
+//     id: 7,
+//     series: "Series 4",
+//     group: "Group B",
+//     value: 46,
+//   },
+//   {
+//     id: 8,
+//     series: "Series 5",
+//     group: "Group A",
+//     value: 22,
+//   },
+//   {
+//     id: 9,
+//     series: "Series 5",
+//     group: "Group B",
+//     value: 46,
+//   },
+// ];
 
 const chartTypeData = [
   { value: "line", label: "Line" },
@@ -96,21 +109,36 @@ const chartTypeData = [
   { value: "combo", label: "Combo" },
 ];
 const dataProvider: MutableArrayDataProvider<ChartItem["id"], ChartItem> =
-  new MutableArrayDataProvider(data, { keyAttributes: "id" });
+  new MutableArrayDataProvider([], { keyAttributes: "id" });
 
-const chartTypesDP: MutableArrayDataProvider<ChartItemType["value"], ChartItemType> =
-  new MutableArrayDataProvider(chartTypeData, { keyAttributes: "value" });
+// const chartTypesDP: MutableArrayDataProvider<ChartItemType["value"], ChartItemType> =
+//   new MutableArrayDataProvider(chartTypeData, { keyAttributes: "value" });
 
 const ItemDetailContainer = (props: Props) => {
+  console.log("in Detail: " + props.data);
   const [val, setVal] = useState<ChartProps["type"]>("bar");
 
   const valChangeHandler = useCallback(
-    (event: ojSelectSingle.valueChanged<ChartItemType["value"], ChartItemType>) => {
+    (
+      event: ojSelectSingle.valueChanged<ChartItemType["value"], ChartItemType>
+    ) => {
       setVal(event.detail.value as ChartProps["type"]);
     },
     [val, setVal]
   );
 
+  useEffect(() => {
+    // fetch("https://apex.oracle.com/pls/apex/oraclejet/lp/items/" + props.item)
+    //   .then((response) => {
+    //     console.log("response: " + response.json);
+    //     return response.json;
+    //   })
+    //   .then((data: any) => {
+    //     console.log("data: " + JSON.stringify(data.items));
+    //     return data.items;
+    //   });
+  }),
+    [props.item];
   const chartItemTemplate = (
     item: ojChart.ItemTemplateContext<ChartItem["id"], ChartItem>
   ) => {
@@ -126,15 +154,16 @@ const ItemDetailContainer = (props: Props) => {
       id="itemDetailsContainer"
       class="oj-flex-item oj-sm-padding-4x-start oj-md-6 oj-sm-12">
       <h3>Item Details</h3>
-      {props.item}<br></br>
-      <oj-select-single
+      {props.item}
+      <br></br>
+      {/* <oj-select-single
         data={chartTypesDP}
         value={val}
         class="oj-md-width-1/3"
-        onvalueChanged={valChangeHandler}></oj-select-single>
+        onvalueChanged={valChangeHandler}></oj-select-single> */}
       <oj-chart
         id="barChart"
-        type={val}
+        type="pie"
         data={dataProvider}
         animationOnDisplay="auto"
         animationOnDataChange="auto"

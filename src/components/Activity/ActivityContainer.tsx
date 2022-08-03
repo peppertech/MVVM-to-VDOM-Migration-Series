@@ -11,10 +11,21 @@ type Activity = {
   short_desc: string;
 };
 
+type Item = {
+  id: number;
+  name: string;
+  short_desc?: string;
+  price?: number;
+  quantity?: number;
+  quantity_shipped?: number;
+  quantity_instock?: number;
+  activity_id?: number;
+  image?: string;
+};
 type Props = {
   data?: RESTDataProvider<Activity["id"], Activity>;
   value?: string;
-  onActivityChanged: (value: KeySet<string>) => void;
+  onActivityChanged: (value: Item) => void;
 };
 
 type ListViewProps = ComponentProps<"oj-list-view">;
@@ -27,8 +38,7 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
     <div class="oj-flex no-wrap">
       <span
         class="demo-thumbnail oj-flex-item"
-        style={"background-image:url(" + image + ")"}
-      ></span>
+        style={"background-image:url(" + image + ")"}></span>
       <div class="demo-content oj-flex-item">
         <div>
           <strong>{item.data.name}</strong>
@@ -41,9 +51,9 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
 
 const ActivityContainer = (props: Props) => {
   const selectedActivityChanged = (
-    event: ojListView.selectedChanged<Activity["name"], Activity>
+    event: ojListView.firstSelectedItemChanged<Item["id"], Item>
   ) => {
-    props.onActivityChanged(event.detail.value);
+    props.onActivityChanged(event.detail.value.data);
   };
 
   const activityValue = useMemo(() => {
@@ -53,8 +63,7 @@ const ActivityContainer = (props: Props) => {
   return (
     <div
       id="activitiesContainer"
-      class="oj-flex-item oj-sm-padding-4x-start oj-sm-only-text-align-start oj-md-4 oj-sm-12"
-    >
+      class="oj-flex-item oj-sm-padding-4x-start oj-sm-only-text-align-start oj-md-4 oj-sm-12">
       <h3 id="activitiesHeader">Activities</h3>
       <oj-list-view
         id="activitiesList"
@@ -64,10 +73,9 @@ const ActivityContainer = (props: Props) => {
         gridlines={gridlinesItemVisible}
         selectionMode="single"
         selected={activityValue}
-        onselectedChanged={selectedActivityChanged}
+        onfirstSelectedItemChanged={selectedActivityChanged}
         scrollPolicy="loadMoreOnScroll"
-        scrollPolicyOptions={scrollPolicyOpts}
-      >
+        scrollPolicyOptions={scrollPolicyOpts}>
         <template slot="itemTemplate" render={listItemRenderer}></template>
       </oj-list-view>
     </div>

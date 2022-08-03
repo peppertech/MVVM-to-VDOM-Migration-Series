@@ -10,7 +10,18 @@ type Activity = {
   name: string;
   short_desc: string;
 };
-let INIT_SELECTEDACTIVITY = new KeySetImpl([]) as KeySet<Activity["name"]>;
+type Item = {
+  id: number;
+  name: string;
+  short_desc?: string;
+  price?: number;
+  quantity?: number;
+  quantity_shipped?: number;
+  quantity_instock?: number;
+  activity_id?: number;
+  image?: string;
+};
+let INIT_SELECTEDACTIVITY = null;
 
 // Activity key attribute that you'll pass as a parameter when creating
 // RESTDataProvider instance
@@ -19,7 +30,7 @@ let keyAttributes: string = "id";
 const restServerURLActivities: string =
   "https://apex.oracle.com/pls/apex/oraclejet/lp/activities/";
 
-const activityDataProvider = new RESTDataProvider<Activity['id'],Activity>({
+const activityDataProvider = new RESTDataProvider<Activity["id"], Activity>({
   keyAttributes: keyAttributes,
   url: restServerURLActivities,
   transforms: {
@@ -45,20 +56,16 @@ const ParentContainer1 = () => {
   );
 
   const showActivityItems = () => {
-    return (selectedActivity as KeySetImpl<string>).values().size > 0
-      ? true
-      : false;
+    return selectedActivity != null ? true : false;
   };
 
-  const activityChangedHandler = (value: KeySet<string>) => {
-    if ((value as KeySetImpl<string>).values().size > 0) {
-      console.log(
-        (value as KeySetImpl<string>).values().entries().next().value[0]
-      );
+  const activityChangedHandler = (value: Item) => {
+    if (value != null) {
+      console.log(value.id);
     } else {
       console.log("Nothing selected");
     }
-    setSelectedActivity(value);
+    setSelectedActivity(value?.id);
   };
 
   return (
@@ -68,12 +75,7 @@ const ParentContainer1 = () => {
         onActivityChanged={activityChangedHandler}
       />
       {showActivityItems() && (
-        <ParentContainer2
-          activity={
-            (selectedActivity as KeySetImpl<string>).values().entries().next()
-              .value[0]
-          }
-        />
+        <ParentContainer2 activity={selectedActivity} />
       )}
       {!showActivityItems() && (
         <h4 class="oj-typography-subheading-sm">
