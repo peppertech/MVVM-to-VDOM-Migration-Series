@@ -3,10 +3,9 @@ import ItemDetailContainer from "./ItemDetail/ItemDetailContainer";
 import { h } from "preact";
 import { useState, useEffect, useCallback } from "preact/hooks";
 import { RESTDataProvider } from "ojs/ojrestdataprovider";
-import { KeySetImpl, KeySet } from "ojs/ojkeyset";
 
 type Props = {
-  activity?: string;
+  activity?: Item;
 };
 
 type ActivityItem = {
@@ -25,8 +24,6 @@ type Item = {
   image?: string;
 };
 
-let itemData: Item;
-let INIT_SELECTEDACTIVITYITEM: Item;
 const baseServiceUrl =
   "https://apex.oracle.com/pls/apex/oraclejet/lp/activities/";
 let INIT_DATAPROVIDER = new RESTDataProvider<ActivityItem["id"], ActivityItem>({
@@ -43,26 +40,22 @@ let INIT_DATAPROVIDER = new RESTDataProvider<ActivityItem["id"], ActivityItem>({
 });
 
 const ParentContainer2 = (props: Props) => {
-  const [selectedItemVal, setSelectedItemVal] = useState(props.activity);
-  const [selectedActivityItem, setSelectedActivityItem] = useState(
-    INIT_SELECTEDACTIVITYITEM
-  );
+  const [selectedItemVal, setSelectedItemVal] = useState(null);
   const [activityItemDP, setactivityItemDP] = useState(INIT_DATAPROVIDER);
 
   const activityItemChangeHandler = useCallback(
-    (item: string) => {
-      console.log("In parent2: " + item);
+    (item: Item) => {
       setSelectedItemVal(item);
     },
     [selectedItemVal]
   );
 
-  const showItems = () => {
+  const showItems = useCallback(() => {
     return selectedItemVal === null ? false : true;
-  };
+  },[selectedItemVal]);
 
   useEffect(() => {
-    console.log("In useEffect and activity is: " + props.activity);
+    // console.log("In useEffect and activity is: " + props.activity);
     setactivityItemDP(
       new RESTDataProvider<ActivityItem["id"], ActivityItem>({
         keyAttributes: "id",
@@ -96,7 +89,7 @@ const ParentContainer2 = (props: Props) => {
         onItemChanged={activityItemChangeHandler}
       />
       {showItems() && (
-        <ItemDetailContainer item={selectedItemVal} data={itemData} />
+        <ItemDetailContainer item={selectedItemVal}/>
       )}
       {!showItems() && (
         <h4 class="oj-typography-subheading-sm">

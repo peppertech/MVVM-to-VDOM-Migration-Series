@@ -1,14 +1,12 @@
 import { h, ComponentProps } from "preact";
-import { useState, useCallback, useEffect } from "preact/hooks";
 import "ojs/ojchart";
 import "ojs/ojselectsingle";
+import "ojs/ojavatar";
 import MutableArrayDataProvider = require("ojs/ojmutablearraydataprovider");
 import { ojChart } from "ojs/ojchart";
-import { ojSelectSingle } from "ojs/ojselectsingle";
 
 type Props = {
-  item?: string;
-  data?: Item;
+  item?: Item;
 };
 
 type Item = {
@@ -32,145 +30,61 @@ type ChartItem = {
   value: number;
 };
 
-type ChartItemType = {
-  id: number;
-  value: string;
-  label: string;
-};
-
-// const data = [
-//   {
-//     id: 0,
-//     series: "Series 1",
-//     group: "Group A",
-//     value: 42,
-//   },
-//   {
-//     id: 1,
-//     series: "Series 1",
-//     group: "Group B",
-//     value: 34,
-//   },
-//   {
-//     id: 2,
-//     series: "Series 2",
-//     group: "Group A",
-//     value: 55,
-//   },
-//   {
-//     id: 3,
-//     series: "Series 2",
-//     group: "Group B",
-//     value: 30,
-//   },
-//   {
-//     id: 4,
-//     series: "Series 3",
-//     group: "Group A",
-//     value: 36,
-//   },
-//   {
-//     id: 5,
-//     series: "Series 3",
-//     group: "Group B",
-//     value: 50,
-//   },
-//   {
-//     id: 6,
-//     series: "Series 4",
-//     group: "Group A",
-//     value: 22,
-//   },
-//   {
-//     id: 7,
-//     series: "Series 4",
-//     group: "Group B",
-//     value: 46,
-//   },
-//   {
-//     id: 8,
-//     series: "Series 5",
-//     group: "Group A",
-//     value: 22,
-//   },
-//   {
-//     id: 9,
-//     series: "Series 5",
-//     group: "Group B",
-//     value: 46,
-//   },
-// ];
-
-const chartTypeData = [
-  { value: "line", label: "Line" },
-  { value: "bar", label: "Bar" },
-  { value: "pie", label: "Pie" },
-  { value: "area", label: "Area" },
-  { value: "combo", label: "Combo" },
-];
-const dataProvider: MutableArrayDataProvider<ChartItem["id"], ChartItem> =
-  new MutableArrayDataProvider([], { keyAttributes: "id" });
-
-// const chartTypesDP: MutableArrayDataProvider<ChartItemType["value"], ChartItemType> =
-//   new MutableArrayDataProvider(chartTypeData, { keyAttributes: "value" });
 
 const ItemDetailContainer = (props: Props) => {
-  console.log("in Detail: " + props.data);
-  const [val, setVal] = useState<ChartProps["type"]>("bar");
+  // console.log("in Detail: " + JSON.stringify(props.item));
 
-  const valChangeHandler = useCallback(
-    (
-      event: ojSelectSingle.valueChanged<ChartItemType["value"], ChartItemType>
-    ) => {
-      setVal(event.detail.value as ChartProps["type"]);
-    },
-    [val, setVal]
-  );
-
-  useEffect(() => {
-    // fetch("https://apex.oracle.com/pls/apex/oraclejet/lp/items/" + props.item)
-    //   .then((response) => {
-    //     console.log("response: " + response.json);
-    //     return response.json;
-    //   })
-    //   .then((data: any) => {
-    //     console.log("data: " + JSON.stringify(data.items));
-    //     return data.items;
-    //   });
-  }),
-    [props.item];
+  const pieDataProvider: MutableArrayDataProvider<
+    ChartItem["id"],
+    ChartItem
+  > = new MutableArrayDataProvider([{series:'Quantity in Stock',value: props.item.quantity_instock},{series:'Quantity shipped',value:props.item.quantity_shipped}], { keyAttributes: "id" });
+  
   const chartItemTemplate = (
     item: ojChart.ItemTemplateContext<ChartItem["id"], ChartItem>
   ) => {
+    // console.log('item: ' +item)
     return (
       <oj-chart-item
         value={item.data.value}
-        groupId={[item.data.group]}
-        seriesId={item.data.series}></oj-chart-item>
+        groupId={[0]}
+        seriesId={item.data.series}
+      ></oj-chart-item>
     );
   };
   return (
     <div
       id="itemDetailsContainer"
-      class="oj-flex-item oj-sm-padding-4x-start oj-md-6 oj-sm-12">
+      class="oj-flex-item oj-sm-padding-4x-start oj-md-6 oj-sm-12"
+    >
       <h3>Item Details</h3>
-      {props.item}
-      <br></br>
-      {/* <oj-select-single
-        data={chartTypesDP}
-        value={val}
-        class="oj-md-width-1/3"
-        onvalueChanged={valChangeHandler}></oj-select-single> */}
-      <oj-chart
-        id="barChart"
-        type="pie"
-        data={dataProvider}
-        animationOnDisplay="auto"
-        animationOnDataChange="auto"
-        hoverBehavior="dim"
-        class="chart-sizing">
-        <template slot="itemTemplate" render={chartItemTemplate}></template>
-      </oj-chart>
+      <hr class="hr-margin" />
+      <oj-avatar
+        role="img"
+        size="lg"
+        aria-label={"product image for" + props.item.name}
+        src={props.item?.image?.replace('css','styles')}
+        class="float-right"
+      ></oj-avatar>
+      <div id="itemName" class="data-name">
+        {props.item.name}
+      </div>
+      <div id="itemDesc" class="data-desc">
+        {props.item.short_desc}
+      </div>
+      <div id="itemPrice">{"Price: " + props.item.price + " each"}</div>
+      <div id="itemId">{"Item Id: " + props.item.id}</div>
+      <div>
+        <oj-chart
+          type="pie"
+          data={pieDataProvider}
+          animationOnDisplay="auto"
+          animationOnDataChange="auto"
+          hoverBehavior="dim"
+          class="chartStyle"
+        >
+          <template slot="itemTemplate" render={chartItemTemplate}></template>
+        </oj-chart>
+      </div>
     </div>
   );
 };

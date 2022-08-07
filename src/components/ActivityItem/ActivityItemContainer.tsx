@@ -1,12 +1,12 @@
+import ItemActionsContainer from "./ItemActionsContainer";
 import { h, ComponentProps } from "preact";
 import { useState } from "preact/hooks";
-import { KeySetImpl, KeySet } from "ojs/ojkeyset";
 import "ojs/ojlistview";
 import { ojListView } from "ojs/ojlistview";
 import { RESTDataProvider } from "ojs/ojrestdataprovider";
 
 type Props = {
-  selectedActivity?: string;
+  selectedActivity?: Item;
   data: RESTDataProvider<any, any>;
   onItemChanged?: (item: any) => void;
 };
@@ -69,7 +69,7 @@ const ActivityItemContainer = (props: Props) => {
       let tempItem = event.detail.value.data;
       if (tempItem != null) {
         props.onItemChanged(tempItem);
-        console.log("Item change: " + tempItem);
+        // console.log("Item change: " + tempItem);
       } else {
         props.onItemChanged(null);
       }
@@ -83,6 +83,7 @@ const ActivityItemContainer = (props: Props) => {
       class="oj-flex-item oj-sm-padding-4x-start oj-md-6 oj-sm-12">
       <div id="container">
         <h3>Activity Items</h3>
+        <ItemActionsContainer/>
         <oj-list-view
           id="activitiesList"
           class="item-display"

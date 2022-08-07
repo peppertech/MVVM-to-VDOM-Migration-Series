@@ -1,9 +1,8 @@
 import ActivityContainer from "./Activity/ActivityContainer";
 import ParentContainer2 from "./ParentContainer2";
 import { h } from "preact";
-import { useState, useEffect } from "preact/hooks";
+import { useState } from "preact/hooks";
 import { RESTDataProvider } from "ojs/ojrestdataprovider";
-import { KeySetImpl, KeySet } from "ojs/ojkeyset";
 
 type Activity = {
   id: number;
@@ -60,11 +59,6 @@ const ParentContainer1 = () => {
   };
 
   const activityChangedHandler = (value: Item) => {
-    if (value != null) {
-      console.log(value.id);
-    } else {
-      console.log("Nothing selected");
-    }
     setSelectedActivity(value?.id);
   };
 

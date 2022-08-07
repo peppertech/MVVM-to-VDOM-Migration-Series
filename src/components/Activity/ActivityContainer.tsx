@@ -1,5 +1,5 @@
 import { h, ComponentProps } from "preact";
-import { useState, useCallback, useEffect, useMemo } from "preact/hooks";
+import { useMemo } from "preact/hooks";
 import "ojs/ojlistview";
 import { ojListView } from "ojs/ojlistview";
 import { KeySetImpl, KeySet } from "ojs/ojkeyset";
@@ -50,6 +50,7 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
 };
 
 const ActivityContainer = (props: Props) => {
+
   const selectedActivityChanged = (
     event: ojListView.firstSelectedItemChanged<Item["id"], Item>
   ) => {
