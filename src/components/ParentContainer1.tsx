@@ -20,7 +20,7 @@ type Item = {
   activity_id?: number;
   image?: string;
 };
-let INIT_SELECTEDACTIVITY = null;
+let INIT_SELECTEDACTIVITY:Item = null;
 
 // Activity key attribute that you'll pass as a parameter when creating
 // RESTDataProvider instance
@@ -59,7 +59,7 @@ const ParentContainer1 = () => {
   };
 
   const activityChangedHandler = (value: Item) => {
-    setSelectedActivity(value?.id);
+    setSelectedActivity(value);
   };
 
   return (

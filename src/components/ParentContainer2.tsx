@@ -55,11 +55,11 @@ const ParentContainer2 = (props: Props) => {
   },[selectedItemVal]);
 
   useEffect(() => {
-    // console.log("In useEffect and activity is: " + props.activity);
+    //setSelectedItemVal(null);
     setactivityItemDP(
       new RESTDataProvider<ActivityItem["id"], ActivityItem>({
         keyAttributes: "id",
-        url: baseServiceUrl + "/" + props.activity + "/items/",
+        url: baseServiceUrl + "/" + props.activity.id + "/items/",
         transforms: {
           fetchFirst: {
             request: async (options) => {
