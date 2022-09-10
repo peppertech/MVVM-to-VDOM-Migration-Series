@@ -14,14 +14,12 @@ This project will take that Learning Path's final application and migrate it to 
 
 ## Prerequisites
 * Nodejs v14 or higher (latest LTS recommended)
-* Latest JET CLI installed (or use the NPM scripts as described below)
-
 
 &nbsp;
 
 ## Setup
 * Clone the project
-* run *npm run restore* from the root of the project
+* run *npm install* from the root of the project
 * run *npm run serve* from the root of the project
   
 &nbsp;
