@@ -7,6 +7,7 @@
   },
   "devDependencies": {
     "@oracle/oraclejet-tooling": "~13.0.0",
+    "@oracle/ojet-cli":"~13.0.0",
     "fs-extra": "^8.1.0",
     "glob": "7.2.0",
     "ts-creator": "1.2.5",
@@ -19,9 +20,9 @@
   },
   "private": true,
   "scripts": {
-    "serve": "npx @oracle/ojet-cli@13.0.0 serve --server-port=8001 --livereload-port=35723",
-    "build": "npx @oracle/ojet-cli@13.0.0 build",
-    "strip": "npx @oracle/ojet-cli@13.0.0 strip",
-    "restore": "npx @oracle/ojet-cli@13.0.0 restore"
+    "serve": "npx ojet serve --server-port=8001 --livereload-port=35723",
+    "build": "npx ojet build",
+    "strip": "npx ojet strip",
+    "restore": "npx ojet restore"
   }
 }
