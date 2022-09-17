@@ -1,7 +1,6 @@
 import ItemActionsContainer from "./ItemActionsContainer";
-import { h, ComponentProps, createRef } from "preact";
-import { useState, useCallback } from "preact/hooks";
-import { KeySetImpl } from "ojs/ojkeyset";
+import { h, ComponentProps } from "preact";
+import { useState, useCallback, useRef } from "preact/hooks";
 import "ojs/ojlistview";
 import { ojListView } from "ojs/ojlistview";
 import "ojs/ojdialog";
@@ -49,7 +48,8 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
     <div class="oj-flex no-wrap">
       <span
         class="demo-thumbnail oj-flex-item"
-        style={"background-image:url(" + image + ")"}></span>
+        style={"background-image:url(" + image + ")"}
+      ></span>
       <div class="demo-content oj-flex-item">
         <div>
           <strong>{item.data.name}</strong>
@@ -63,8 +63,8 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
 const DEFAULT_ACTIVITY_ITEM_STATE: any = {};
 
 const ActivityItemContainer = (props: Props) => {
-  const createDialogRef = createRef();
-  const editDialogRef = createRef();
+  const createDialogRef = useRef();
+  const editDialogRef = useRef();
   const activityItemDataProvider = props.data;
   const restServerURLItems =
     "https://apex.oracle.com/pls/apex/oraclejet/lp/activities/" +
@@ -107,10 +107,10 @@ const ActivityItemContainer = (props: Props) => {
     setInputPrice(event.detail.value);
   };
   const updateInputDesc = (event) => {
-      setInputShortDesc(event.detail.value);
+    setInputShortDesc(event.detail.value);
   };
 
-  const editItem = useCallback(async () => {
+  const editItem = async () => {
     if (itemData != null) {
       const row = {
         itemId: itemData.id,
@@ -141,11 +141,10 @@ const ActivityItemContainer = (props: Props) => {
           metadata: [updatedRowMetaData],
         },
       });
-      props.data.refresh();
     } // End if statement
     console.log("Edited item");
     (editDialogRef.current as ojDialog).close();
-  }, [editDialogRef]);
+  };
 
   const updateName = (event) => {
     setItemName(event.detail.value);
@@ -154,7 +153,7 @@ const ActivityItemContainer = (props: Props) => {
     setPrice(event.detail.value);
   };
   const updateDesc = (event) => {
-      setShortDesc(event.detail.value);
+    setShortDesc(event.detail.value);
   };
   const updateInStock = (event) => {
     setQuantityInstock(event.detail.value);
@@ -163,7 +162,7 @@ const ActivityItemContainer = (props: Props) => {
     setQuantityShipped(event.detail.value);
   };
 
-  const createItem = useCallback(async () => {
+  const createItem = async () => {
     //process create command and close dialog on success
 
     let quantity = Number(quantityInstock) + Number(quantityShipped);
@@ -194,30 +193,33 @@ const ActivityItemContainer = (props: Props) => {
     // Create add mutate event and call mutate method
     // to notify dataprovider that a row has been
     // added
-    const addedRowKey = addedRow["id"];
-    const addedRowMetaData = { key: addedRowKey };
-    activityItemDataProvider.mutate({
-      add: {
-        data: [addedRow],
-        keys: new Set([addedRowKey]),
-        metadata: [addedRowMetaData],
-      },
-    });
+
+    /***  This is currently not working for Add. It's fine for update and remove.
+     * Use .refresh() on the DataProvider for now.
+      */
+    // const addedRowKey = addedRow["id"];
+    // const addedRowMetaData = { key: addedRowKey };
+    // activityItemDataProvider.mutate({
+    //   add: {
+    //     data: [addedRow],
+    //     keys: new Set([addedRowKey]),
+    //     metadata: [addedRowMetaData],
+    //   },
+    // });
     activityItemDataProvider.refresh();
     // Close dialog
     console.log("Created new item");
     (createDialogRef.current as ojDialog).close();
     // end createItem
-  }, [createDialogRef]);
+  };
 
-  const deleteItem = useCallback(async () => {
+  const deleteItem = async () => {
     const really = confirm("Do you really want to delete this item?");
     if (really) {
       // Create and send request to delete row on REST service
-      const request = new Request(
-        `${restServerURLItems}${itemData.id}`,
-        { method: "DELETE" }
-      );
+      const request = new Request(`${restServerURLItems}${itemData.id}`, {
+        method: "DELETE",
+      });
       const response = await fetch(request);
       // Create remove mutate event and call mutate method
       // to notify data-provider consumers that a row has been
@@ -233,19 +235,21 @@ const ActivityItemContainer = (props: Props) => {
             metadata: [removedRowMetaData],
           },
         });
-        props.data.refresh();
-
-      }
-      else {
-        alert("Delete failed with status " + response.status + " : " + response.statusText)
+      } else {
+        alert(
+          "Delete failed with status " +
+            response.status +
+            " : " +
+            response.statusText
+        );
       }
       console.log("deleted that thing!");
     } else {
       console.log("Ok, we canceled that delete");
     }
-  }, [editDialogRef]);
+  };
 
-  const openEditDialog = useCallback(() => {
+  const openEditDialog = () => {
     if (itemData !== undefined) {
       setInputItemID(itemData.id);
       setInputItemName(itemData.name);
@@ -255,7 +259,7 @@ const ActivityItemContainer = (props: Props) => {
     }
     console.log("Edit dialog opened");
     (editDialogRef.current as ojDialog).open();
-  }, [editDialogRef, itemData]);
+  };
 
   const openCreateDialog = () => {
     console.log("Create dialog opened");
@@ -265,7 +269,8 @@ const ActivityItemContainer = (props: Props) => {
   return (
     <div
       id="activityItemsContainer"
-      class="oj-flex-item oj-sm-padding-4x-start oj-md-6 oj-sm-12">
+      class="oj-flex-item oj-sm-padding-4x-start oj-md-6 oj-sm-12"
+    >
       <div id="container">
         <h3>Activity Items</h3>
         <ItemActionsContainer
@@ -283,7 +288,8 @@ const ActivityItemContainer = (props: Props) => {
           selectionMode="single"
           onfirstSelectedItemChanged={selectedActivityItemChanged}
           scrollPolicy="loadMoreOnScroll"
-          scrollPolicyOptions={scrollPolicyOpts}>
+          scrollPolicyOptions={scrollPolicyOpts}
+        >
           <template slot="itemTemplate" render={listItemRenderer}></template>
         </oj-list-view>
       </div>
@@ -292,34 +298,40 @@ const ActivityItemContainer = (props: Props) => {
           id="createDialog"
           ref={createDialogRef}
           dialogTitle="Create New Item"
-          cancelBehavior="icon">
+          cancelBehavior="icon"
+        >
           <div slot="body">
             <oj-form-layout>
               <oj-input-text
                 id="createNewName"
                 labelHint="Name"
                 onvalueChanged={updateName}
-                value={itemName}></oj-input-text>
+                value={itemName}
+              ></oj-input-text>
               <oj-input-text
                 id="createNewPrice"
                 labelHint="Price"
                 onvalueChanged={updatePrice}
-                value={price}></oj-input-text>
+                value={price}
+              ></oj-input-text>
               <oj-input-text
                 id="createNewDesc"
                 labelHint="Description"
                 onvalueChanged={updateDesc}
-                value={shortDesc}></oj-input-text>
+                value={shortDesc}
+              ></oj-input-text>
               <oj-input-text
                 id="createNewInStock"
                 labelHint="Quantity: In-Stock"
                 onvalueChanged={updateInStock}
-                value={quantityInstock}></oj-input-text>
+                value={quantityInstock}
+              ></oj-input-text>
               <oj-input-text
                 id="createNewShipped"
                 labelHint="Quantity: Shipped"
                 onvalueChanged={updateShipped}
-                value={quantityShipped}></oj-input-text>
+                value={quantityShipped}
+              ></oj-input-text>
             </oj-form-layout>
           </div>
           <div slot="footer">
@@ -335,7 +347,8 @@ const ActivityItemContainer = (props: Props) => {
           ref={editDialogRef}
           class="no-display"
           dialogTitle="Update Item Details"
-          cancelBehavior="icon">
+          cancelBehavior="icon"
+        >
           <div slot="body">
             <oj-label-value labelEdge="inside">
               <oj-label for="itemid" slot="label">
@@ -350,17 +363,20 @@ const ActivityItemContainer = (props: Props) => {
                 id="createNewName"
                 labelHint="Name"
                 onvalueChanged={updateInputName}
-                value={inputItemName}></oj-input-text>
+                value={inputItemName}
+              ></oj-input-text>
               <oj-input-text
                 id="createNewPrice"
                 labelHint="Price"
                 onvalueChanged={updateInputPrice}
-                value={inputPrice}></oj-input-text>
+                value={inputPrice}
+              ></oj-input-text>
               <oj-input-text
                 id="createNewDesc"
                 labelHint="Description"
                 onvalueChanged={updateInputDesc}
-                value={inputShortDesc}></oj-input-text>
+                value={inputShortDesc}
+              ></oj-input-text>
             </oj-form-layout>
           </div>
           <div slot="footer">
