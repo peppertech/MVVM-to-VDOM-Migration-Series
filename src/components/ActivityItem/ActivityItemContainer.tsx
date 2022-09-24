@@ -1,10 +1,10 @@
 import ItemActionsContainer from "./ItemActionsContainer";
+import CreateNewItemDialog from "./CreateNewItemDialog";
+import EditItemDialog from "./EditItemDialog";
 import { h, ComponentProps } from "preact";
-import { useState, useCallback, useRef } from "preact/hooks";
+import { useState, useCallback } from "preact/hooks";
 import "ojs/ojlistview";
 import { ojListView } from "ojs/ojlistview";
-import "ojs/ojdialog";
-import { ojDialog } from "ojs/ojdialog";
 import "ojs/ojformlayout";
 import "ojs/ojlabel";
 import "ojs/ojlabelvalue";
@@ -28,14 +28,6 @@ type Item = {
   image?: string;
 };
 
-type ActivityItem = {
-  id: string;
-  name: string;
-  items: Array<Item>;
-  short_desc: string;
-  image: string;
-};
-
 type ListViewProps = ComponentProps<"oj-list-view">;
 const gridlinesItemVisible: ListViewProps["gridlines"] = { item: "visible" };
 const scrollPolicyOpts: ListViewProps["scrollPolicyOptions"] = {
@@ -48,8 +40,7 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
     <div class="oj-flex no-wrap">
       <span
         class="demo-thumbnail oj-flex-item"
-        style={"background-image:url(" + image + ")"}
-      ></span>
+        style={"background-image:url(" + image + ")"}></span>
       <div class="demo-content oj-flex-item">
         <div>
           <strong>{item.data.name}</strong>
@@ -63,8 +54,6 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
 const DEFAULT_ACTIVITY_ITEM_STATE: any = {};
 
 const ActivityItemContainer = (props: Props) => {
-  const createDialogRef = useRef();
-  const editDialogRef = useRef();
   const activityItemDataProvider = props.data;
   const restServerURLItems =
     "https://apex.oracle.com/pls/apex/oraclejet/lp/activities/" +
@@ -74,16 +63,9 @@ const ActivityItemContainer = (props: Props) => {
   const [activityItemValue, setActivityItemValue] = useState(
     DEFAULT_ACTIVITY_ITEM_STATE
   );
-  const [itemData, setItemData] = useState<any>(props.selectedActivity);
-  const [itemName, setItemName] = useState();
-  const [price, setPrice] = useState();
-  const [shortDesc, setShortDesc] = useState();
-  const [quantityInstock, setQuantityInstock] = useState();
-  const [quantityShipped, setQuantityShipped] = useState();
-  const [inputItemID, setInputItemID] = useState<number>();
-  const [inputItemName, setInputItemName] = useState();
-  const [inputPrice, setInputPrice] = useState();
-  const [inputShortDesc, setInputShortDesc] = useState();
+  const [itemData, setItemData] = useState<Item>(props.selectedActivity);
+  const [isCreateOpened, setIsCreateOpened] = useState<boolean>();
+  const [isEditOpened, setIsEditOpened] = useState<boolean>();
 
   const selectedActivityItemChanged = useCallback(
     (event: ojListView.firstSelectedItemChanged<Item["id"], Item>) => {
@@ -100,23 +82,14 @@ const ActivityItemContainer = (props: Props) => {
     },
     [activityItemValue]
   );
-  const updateInputName = (event) => {
-    setInputItemName(event.detail.value);
-  };
-  const updateInputPrice = (event) => {
-    setInputPrice(event.detail.value);
-  };
-  const updateInputDesc = (event) => {
-    setInputShortDesc(event.detail.value);
-  };
 
-  const editItem = async () => {
-    if (itemData != null) {
+  const editItem = async (newItemData, editDialogRef) => {
+    if (newItemData != null) {
       const row = {
-        itemId: itemData.id,
-        name: inputItemName,
-        price: inputPrice,
-        short_desc: inputShortDesc,
+        itemId: newItemData.id,
+        name: newItemData.name,
+        price: newItemData.price,
+        short_desc: newItemData.short_desc,
       };
 
       // Create and send request to update row on rest service
@@ -129,6 +102,7 @@ const ActivityItemContainer = (props: Props) => {
       });
       const response = await fetch(request);
       const updatedRow = await response.json();
+
       // Create update mutate event and call mutate method
       // to notify dataprovider consumers that a row has been
       // updated
@@ -143,74 +117,59 @@ const ActivityItemContainer = (props: Props) => {
       });
     } // End if statement
     console.log("Edited item");
-    (editDialogRef.current as ojDialog).close();
+    editDialogRef.current.close();
   };
 
-  const updateName = (event) => {
-    setItemName(event.detail.value);
-  };
-  const updatePrice = (event) => {
-    setPrice(event.detail.value);
-  };
-  const updateDesc = (event) => {
-    setShortDesc(event.detail.value);
-  };
-  const updateInStock = (event) => {
-    setQuantityInstock(event.detail.value);
-  };
-  const updateShipped = (event) => {
-    setQuantityShipped(event.detail.value);
-  };
-
-  const createItem = async () => {
+  const createItem = async (data: Partial<Item>, createDialogRef: any) => {
     //process create command and close dialog on success
+    if (data?.name) {
+      let quantity =
+        Number(data.quantity_instock) + Number(data.quantity_shipped);
+      const row = {
+        name: data.name,
+        short_desc: data.short_desc,
+        price: data.price,
+        quantity_instock: data.quantity_instock,
+        quantity_shipped: data.quantity_shipped,
+        quantity: quantity,
+        activity_id: props.selectedActivity.id,
+        image: "css/images/product_images/jet_logo_256.png",
+      };
 
-    let quantity = Number(quantityInstock) + Number(quantityShipped);
+      //   // Create and send request to REST service to add row
+      const request = new Request(restServerURLItems, {
+        headers: new Headers({
+          "Content-type": "application/json; charset=UTF-8",
+        }),
+        body: JSON.stringify(row),
+        method: "POST",
+      });
 
-    const row = {
-      name: itemName,
-      short_desc: shortDesc,
-      price: price,
-      quantity_instock: quantityInstock,
-      quantity_shipped: quantityShipped,
-      quantity: quantity,
-      activity_id: props.selectedActivity.id,
-      image: "css/images/product_images/jet_logo_256.png",
-    };
+      const response = await fetch(request);
+      const addedRow = await response.json();
 
-    //   // Create and send request to REST service to add row
-    const request = new Request(restServerURLItems, {
-      headers: new Headers({
-        "Content-type": "application/json; charset=UTF-8",
-      }),
-      body: JSON.stringify(row),
-      method: "POST",
-    });
+      // Create add mutate event and call mutate method
+      // to notify dataprovider that a row has been
+      // added
 
-    const response = await fetch(request);
-    const addedRow = await response.json();
-
-    // Create add mutate event and call mutate method
-    // to notify dataprovider that a row has been
-    // added
-
-    /***  This is currently not working for Add. It's fine for update and remove.
-     * Use .refresh() on the DataProvider for now.
-      */
-    // const addedRowKey = addedRow["id"];
-    // const addedRowMetaData = { key: addedRowKey };
-    // activityItemDataProvider.mutate({
-    //   add: {
-    //     data: [addedRow],
-    //     keys: new Set([addedRowKey]),
-    //     metadata: [addedRowMetaData],
-    //   },
-    // });
-    activityItemDataProvider.refresh();
-    // Close dialog
-    console.log("Created new item");
-    (createDialogRef.current as ojDialog).close();
-    // end createItem
+      /***  This is currently not working for Add. It's fine for update and remove.
+       * Use .refresh() on the DataProvider for now.
+       */
+      // const addedRowKey = addedRow["id"];
+      // const addedRowMetaData = { key: addedRowKey };
+      // activityItemDataProvider.mutate({
+      //   add: {
+      //     data: [addedRow],
+      //     keys: new Set([addedRowKey]),
+      //     metadata: [addedRowMetaData],
+      //   },
+      // });
+      activityItemDataProvider.refresh();
+      // Close dialog
+      console.log("Created new item");
+      createDialogRef.current.close();
+      // end createItem
+    }
   };
 
   const deleteItem = async () => {
@@ -250,20 +209,19 @@ const ActivityItemContainer = (props: Props) => {
   };
 
   const openEditDialog = () => {
-    if (itemData !== undefined) {
-      setInputItemID(itemData.id);
-      setInputItemName(itemData.name);
-      setInputPrice(itemData.price);
-      setInputShortDesc(itemData.short_desc);
-      console.log("Item: " + JSON.stringify(itemData));
-    }
+    console.log("Item: " + JSON.stringify(itemData));
+    setIsEditOpened(true);
     console.log("Edit dialog opened");
-    (editDialogRef.current as ojDialog).open();
   };
 
   const openCreateDialog = () => {
     console.log("Create dialog opened");
-    (createDialogRef.current as ojDialog).open();
+    setIsCreateOpened(true);
+  };
+
+  const handleDialogClose = (ref, type) => {
+    type === "create" ? setIsCreateOpened(false) : setIsEditOpened(false);
+    ref.current.close();
   };
 
   return (
@@ -293,99 +251,17 @@ const ActivityItemContainer = (props: Props) => {
           <template slot="itemTemplate" render={listItemRenderer}></template>
         </oj-list-view>
       </div>
-      <span>
-        <oj-dialog
-          id="createDialog"
-          ref={createDialogRef}
-          dialogTitle="Create New Item"
-          cancelBehavior="icon"
-        >
-          <div slot="body">
-            <oj-form-layout>
-              <oj-input-text
-                id="createNewName"
-                labelHint="Name"
-                onvalueChanged={updateName}
-                value={itemName}
-              ></oj-input-text>
-              <oj-input-text
-                id="createNewPrice"
-                labelHint="Price"
-                onvalueChanged={updatePrice}
-                value={price}
-              ></oj-input-text>
-              <oj-input-text
-                id="createNewDesc"
-                labelHint="Description"
-                onvalueChanged={updateDesc}
-                value={shortDesc}
-              ></oj-input-text>
-              <oj-input-text
-                id="createNewInStock"
-                labelHint="Quantity: In-Stock"
-                onvalueChanged={updateInStock}
-                value={quantityInstock}
-              ></oj-input-text>
-              <oj-input-text
-                id="createNewShipped"
-                labelHint="Quantity: Shipped"
-                onvalueChanged={updateShipped}
-                value={quantityShipped}
-              ></oj-input-text>
-            </oj-form-layout>
-          </div>
-          <div slot="footer">
-            <oj-button id="submitBtn" onojAction={createItem}>
-              Submit
-            </oj-button>
-          </div>
-        </oj-dialog>
-      </span>
-      <span>
-        <oj-dialog
-          id="editDialog"
-          ref={editDialogRef}
-          class="no-display"
-          dialogTitle="Update Item Details"
-          cancelBehavior="icon"
-        >
-          <div slot="body">
-            <oj-label-value labelEdge="inside">
-              <oj-label for="itemid" slot="label">
-                Item ID
-              </oj-label>
-              <div id="itemid" slot="value" class="slot-line">
-                {inputItemID}
-              </div>
-            </oj-label-value>
-            <oj-form-layout>
-              <oj-input-text
-                id="createNewName"
-                labelHint="Name"
-                onvalueChanged={updateInputName}
-                value={inputItemName}
-              ></oj-input-text>
-              <oj-input-text
-                id="createNewPrice"
-                labelHint="Price"
-                onvalueChanged={updateInputPrice}
-                value={inputPrice}
-              ></oj-input-text>
-              <oj-input-text
-                id="createNewDesc"
-                labelHint="Description"
-                onvalueChanged={updateInputDesc}
-                value={inputShortDesc}
-              ></oj-input-text>
-            </oj-form-layout>
-          </div>
-          <div slot="footer">
-            <oj-button id="submitBtn" onojAction={editItem}>
-              Submit
-            </oj-button>
-          </div>
-        </oj-dialog>
-      </span>
+      <CreateNewItemDialog
+        isOpened={isCreateOpened}
+        createNewItem={createItem}
+        closeDialog={handleDialogClose}
+      />
+      <EditItemDialog
+        isOpened={isEditOpened}
+        editItem={editItem}
+        closeDialog={handleDialogClose}
+        itemData={itemData}
+      />
     </div>
   );
 };
