@@ -1,16 +1,26 @@
 import ActivityContainer from "./Activity/ActivityContainer";
 import ParentContainer2 from "./ParentContainer2";
 import { h } from "preact";
-import { useState, useEffect } from "preact/hooks";
+import { useState } from "preact/hooks";
 import { RESTDataProvider } from "ojs/ojrestdataprovider";
-import { KeySetImpl, KeySet } from "ojs/ojkeyset";
 
 type Activity = {
   id: number;
   name: string;
   short_desc: string;
 };
-let INIT_SELECTEDACTIVITY = new KeySetImpl([]) as KeySet<Activity["name"]>;
+type Item = {
+  id: number;
+  name: string;
+  short_desc?: string;
+  price?: number;
+  quantity?: number;
+  quantity_shipped?: number;
+  quantity_instock?: number;
+  activity_id?: number;
+  image?: string;
+};
+let INIT_SELECTEDACTIVITY:Item = null;
 
 // Activity key attribute that you'll pass as a parameter when creating
 // RESTDataProvider instance
@@ -19,7 +29,7 @@ let keyAttributes: string = "id";
 const restServerURLActivities: string =
   "https://apex.oracle.com/pls/apex/oraclejet/lp/activities/";
 
-const activityDataProvider = new RESTDataProvider<Activity['id'],Activity>({
+const activityDataProvider = new RESTDataProvider<Activity["id"], Activity>({
   keyAttributes: keyAttributes,
   url: restServerURLActivities,
   transforms: {
@@ -45,19 +55,10 @@ const ParentContainer1 = () => {
   );
 
   const showActivityItems = () => {
-    return (selectedActivity as KeySetImpl<string>).values().size > 0
-      ? true
-      : false;
+    return selectedActivity != null ? true : false;
   };
 
-  const activityChangedHandler = (value: KeySet<string>) => {
-    if ((value as KeySetImpl<string>).values().size > 0) {
-      console.log(
-        (value as KeySetImpl<string>).values().entries().next().value[0]
-      );
-    } else {
-      console.log("Nothing selected");
-    }
+  const activityChangedHandler = (value: Item) => {
     setSelectedActivity(value);
   };
 
@@ -68,12 +69,7 @@ const ParentContainer1 = () => {
         onActivityChanged={activityChangedHandler}
       />
       {showActivityItems() && (
-        <ParentContainer2
-          activity={
-            (selectedActivity as KeySetImpl<string>).values().entries().next()
-              .value[0]
-          }
-        />
+        <ParentContainer2 activity={selectedActivity} />
       )}
       {!showActivityItems() && (
         <h4 class="oj-typography-subheading-sm">
