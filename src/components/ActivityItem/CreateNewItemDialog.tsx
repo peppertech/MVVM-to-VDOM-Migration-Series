@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { useState, useRef, useEffect } from "preact/hooks";
+import { useState, useRef, useEffect,MutableRef } from "preact/hooks";
 import "ojs/ojdialog";
 import { ojDialog } from "ojs/ojdialog";
 
@@ -19,7 +19,7 @@ type Item = {
 
 
 const CreateNewItemDialog = (props: Props) => {
-  const createDialogRef = useRef<ojDialog>();
+  const createDialogRef:MutableRef<ojDialog> = useRef<ojDialog>();
   const [formData, setFormData] = useState<Partial<Item>>();
 
   const onChangeHandler = (event) => {

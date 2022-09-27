@@ -2,9 +2,10 @@ import ItemActionsContainer from "./ItemActionsContainer";
 import CreateNewItemDialog from "./CreateNewItemDialog";
 import EditItemDialog from "./EditItemDialog";
 import { h, ComponentProps } from "preact";
-import { useState, useCallback } from "preact/hooks";
+import { useState, useCallback, MutableRef } from "preact/hooks";
 import "ojs/ojlistview";
 import { ojListView } from "ojs/ojlistview";
+import { ojDialog } from "ojs/ojdialog";
 import "ojs/ojformlayout";
 import "ojs/ojlabel";
 import "ojs/ojlabelvalue";
@@ -13,7 +14,7 @@ import { RESTDataProvider } from "ojs/ojrestdataprovider";
 type Props = {
   selectedActivity?: Item;
   data: RESTDataProvider<any, any>;
-  onItemChanged?: (item: any) => void;
+  onItemChanged?: (item: Partial<Item>) => void;
 };
 
 type Item = {
@@ -40,7 +41,8 @@ const listItemRenderer = (item: ojListView.ItemTemplateContext) => {
     <div class="oj-flex no-wrap">
       <span
         class="demo-thumbnail oj-flex-item"
-        style={"background-image:url(" + image + ")"}></span>
+        style={"background-image:url(" + image + ")"}
+      ></span>
       <div class="demo-content oj-flex-item">
         <div>
           <strong>{item.data.name}</strong>
@@ -83,7 +85,7 @@ const ActivityItemContainer = (props: Props) => {
     [activityItemValue]
   );
 
-  const editItem = async (newItemData, editDialogRef) => {
+  const editItem = async (newItemData:Partial<Item>, editDialogRef: MutableRef<ojDialog>) => {
     if (newItemData != null) {
       const row = {
         itemId: newItemData.id,
@@ -120,7 +122,10 @@ const ActivityItemContainer = (props: Props) => {
     editDialogRef.current.close();
   };
 
-  const createItem = async (data: Partial<Item>, createDialogRef: any) => {
+  const createItem = async (
+    data: Partial<Item>,
+    createDialogRef: MutableRef<ojDialog>
+  ) => {
     //process create command and close dialog on success
     if (data?.name) {
       let quantity =
