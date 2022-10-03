@@ -1,12 +1,12 @@
 import { h } from "preact";
-import { useState, useRef, useEffect,MutableRef } from "preact/hooks";
+import { useState, useRef, useEffect } from "preact/hooks";
 import "ojs/ojdialog";
 import { ojDialog } from "ojs/ojdialog";
 
 type Props = {
   isOpened: boolean;
-  closeDialog: (ref,type) => void;
-  createNewItem: (object,string) => void;
+  closeDialog: (ref:any,type:string) => void;
+  createNewItem: (data:Partial<Item>,ref:any) => void;
 };
 
 type Item = {
@@ -19,7 +19,7 @@ type Item = {
 
 
 const CreateNewItemDialog = (props: Props) => {
-  const createDialogRef:MutableRef<ojDialog> = useRef<ojDialog>();
+  const createDialogRef = useRef<ojDialog>(null);
   const [formData, setFormData] = useState<Partial<Item>>();
 
   const onChangeHandler = (event) => {
@@ -40,8 +40,8 @@ const CreateNewItemDialog = (props: Props) => {
 
   useEffect(() => {
     props.isOpened
-      ? createDialogRef.current.open()
-      : createDialogRef.current.close();
+      ? createDialogRef.current?.open()
+      : createDialogRef.current?.close();
   }, [props.isOpened]);
 
   return (

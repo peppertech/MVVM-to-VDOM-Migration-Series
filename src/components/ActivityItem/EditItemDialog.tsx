@@ -1,12 +1,12 @@
 import { h } from "preact";
-import { useState, useRef, useEffect,MutableRef } from "preact/hooks";
+import { useState, useRef, useEffect } from "preact/hooks";
 import "ojs/ojdialog";
 import { ojDialog } from "ojs/ojdialog";
 
 type Props = {
   isOpened: boolean;
-  closeDialog: (ref, type) => void;
-  editItem: (object,string) => void;
+  closeDialog: (ref, type:string) => void;
+  editItem: (data:Partial<Item>,ref) => void;
   itemData: Partial<Item>;
 };
 
@@ -23,7 +23,7 @@ type Item = {
 };
 
 const EditItemDialog = (props: Props) => {
-  const editDialogRef:MutableRef<ojDialog> = useRef<ojDialog>();
+  const editDialogRef = useRef<ojDialog>(null);
   const [editFormData, setEditFormData] = useState<Partial<Item>>();
 
   const onChangeHandler = (event) => {
@@ -47,8 +47,8 @@ const EditItemDialog = (props: Props) => {
   useEffect(() => {
     setEditFormData(props.itemData);
     props.isOpened
-      ? editDialogRef.current.open()
-      : editDialogRef.current.close();
+      ? editDialogRef.current?.open()
+      : editDialogRef.current?.close();
   }, [props.isOpened]);
 
   return (
