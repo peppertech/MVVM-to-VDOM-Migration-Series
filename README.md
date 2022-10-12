@@ -19,8 +19,8 @@ This project will take that Learning Path's final application and migrate it to 
 
 ## Setup
 * Clone the project
-* run *npm install* from the root of the project
-* run *npm run serve* from the root of the project
+* type *npm install* from the root of the project
+* type *npx ojet serve* from the root of the project
   
 &nbsp;
 
