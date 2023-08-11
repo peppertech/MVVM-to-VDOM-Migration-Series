@@ -1,13 +1,13 @@
-import "./components/App";
+import "./components/app";
 
 declare global {
-    namespace preact.JSX {
-      interface IntrinsicElements {
-        // This catch all allows all elements through
-        // [elemName: string]: any;
-      }
+  namespace preact.JSX {
+    interface IntrinsicElements {
+      // This catch all allows all elements through
+      // [elemName: string]: any;
     }
   }
-  
-  // Let tsc know that this is a module
-  export {};
+}
+
+// Let tsc know that this is a module
+export {};

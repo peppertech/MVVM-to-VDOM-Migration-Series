@@ -20,5 +20,6 @@
   "defaultBrowser": "chrome",
   "sassVer": "5.0.0",
   "defaultTheme": "redwood",
-  "architecture": "vdom"
+  "architecture": "vdom",
+  "watchInterval": 1000
 }
